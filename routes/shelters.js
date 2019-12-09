@@ -1,5 +1,9 @@
 var express = require("express"),
-	router = express.Router({mergeParams: true});
+	router = express.Router({mergeParams: true}),
+	Shelter = require("./models/shelters.js"),
+	Dog = require("./models/dogs.js"),
+	User = require("./models/user.js"),
+	shelterUser = require("./models/shelterUser.js");
 
 
 //INDEX ROUTE
@@ -12,6 +16,7 @@ router.get("/", function(req,res){
 //CREATE ROUTE - once a shelters account is created, we automatically create a shelter and add it to the shelters index page, the 'create account' button must redirect here
 router.post("/", function(req, res){
 	//don't forget to not only create the shelter, but to create the shelter account as well
+	//I'm going to create a shelterUser and pass that information to create the shelter itself aswell
 	res.redirect("/shelters/" /* + shelter id */);
 });
 

@@ -1,5 +1,9 @@
 var express = require("express"),
-	router = express.Router({mergeParams: true});
+	router = express.Router({mergeParams: true}),
+	Shelter = require("./models/shelters.js"),
+	Dog = require("./models/dogs.js"),
+	User = require("./models/user.js"),
+	shelterUser = require("./models/shelterUser.js");
 
 
 //INDEX ROUTE

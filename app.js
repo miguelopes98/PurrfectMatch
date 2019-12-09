@@ -1,6 +1,10 @@
 var express = require("express"),
 	app = express(),
-	mongoose = require('mongoose');
+	mongoose = require('mongoose'),
+	Shelter = require("./models/shelters.js"),
+	Dog = require("./models/dogs.js"),
+	User = require("./models/user.js"),
+	shelterUser = require("./models/shelterUser.js");
 
 mongoose.connect("mongodb://localhost:27017/purrfect_match", {useNewUrlParser: true, useUnifiedTopology:true});
 app.set("view engine", ".ejs");
