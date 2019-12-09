@@ -8,8 +8,8 @@ var shelterUserSchema = new mongoose.Schema({
 	image: String,
 	address: String,
 	description: String,
-	phoneNumber: String,
-	email: {type: mongoose.SchemaTypes.Email, required: true},
+	phoneNumber: {type:String, unique: true, require: true},
+	//email: {type:String, unique: true, required: true},
 	schedule: String,
 	websiteUrl: String
 });
