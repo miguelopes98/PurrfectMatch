@@ -9,7 +9,7 @@ var shelterUserSchema = new mongoose.Schema({
 	address: String,
 	description: String,
 	phoneNumber: {type:String, unique: true, require: true},
-	//email: {type:String, unique: true, required: true},
+	email: {type:String, unique: true, required: true},
 	schedule: String,
 	websiteUrl: String
 });

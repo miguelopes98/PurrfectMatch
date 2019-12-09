@@ -2,7 +2,7 @@ var express = require("express"),
 	app = express(),
 	mongoose = require('mongoose'),
 	Shelter = require("./models/shelter.js"),
-	Dog = require("./models/dogs.js"),
+	Dog = require("./models/dog.js"),
 	User = require("./models/user.js"),
 	shelterUser = require("./models/shelterUser.js");
 

@@ -1,7 +1,7 @@
 var express = require("express"),
 	router = express.Router({mergeParams: true}),
 	Shelter = require("../models/shelter.js"),
-	Dog = require("../models/dogs.js"),
+	Dog = require("../models/dog.js"),
 	User = require("../models/user.js"),
 	shelterUser = require("../models/shelterUser.js");
 
