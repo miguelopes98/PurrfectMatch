@@ -7,8 +7,7 @@ var express = require("express"),
 	passportLocalMongoose = require("passport-local-mongoose"),
 	Shelter = require("./models/shelter.js"),
 	Dog = require("./models/dog.js"),
-	User = require("./models/user.js"),
-	shelterUser = require("./models/shelterUser.js");
+	User = require("./models/user.js");
 
 mongoose.connect("mongodb://localhost:27017/purrfect_match", {useNewUrlParser: true, useUnifiedTopology:true});
 //body-parser set up
@@ -29,10 +28,15 @@ app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-// for the shelters account, gotta check it later
-//passport.use(new LocalStrategy(shelterUser.authenticate()));
-/*passport.serializeUser(shelterUser.serializeUser());
-passport.deserializeUser(shelterUser.deserializeUser());*/
+
+//PASSING THE USER INFO TO ALL ROUTES
+//all routes run this middleware, that says in the respective templates that currentUser = req.user
+app.use(function(req, res, next){
+	res.locals.currentUser = req.user;
+	//res.locals.error = req.flash("error");
+	//res.locals.success = req.flash("success");
+	next();
+})
 
 //requiring routes
 var indexRoutes = require("./routes/index.js"),

@@ -3,8 +3,7 @@ var express = require("express"),
 	passport = require("passport"),
 	Shelter = require("../models/shelter.js"),
 	Dog = require("../models/dog.js"),
-	User = require("../models/user.js"),
-	shelterUser = require("../models/shelterUser.js");
+	User = require("../models/user.js");
 
 
 //root route
@@ -67,14 +66,16 @@ router.post("/register/shelter", function(req, res){
 		websiteUrl: req.body.websiteUrl,
 		role: "shelterUser"
 	});
+	
 	User.register(newShelterUser, req.body.password, function(err, user){
 		if(err){
 			console.log(err)
 			return res.redirect("/resgister/shelter");
 		}
-		//if we successfully register the shelter account, we log them in automatically and send them to /shelters
+		//if we successfully register the shelter account, we log them in automatically, then we redirect them to create the respective shelter object and send a post request to /shelters so the shelter object is created with the information we already have
 		passport.authenticate("local")(req, res, function(){
-			res.redirect("/shelters");
+			// the first param is to send a post request instead of a get
+			res.redirect(307, "/shelters");
 		});
 	});
 });

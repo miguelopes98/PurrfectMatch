@@ -4,8 +4,7 @@ var express = require("express"),
 	bodyParser = require('body-parser'),
 	Shelter = require("../models/shelter.js"),
 	Dog = require("../models/dog.js"),
-	User = require("../models/user.js"),
-	shelterUser = require("../models/shelterUser.js");
+	User = require("../models/user.js");
 
 
 //INDEX ROUTE

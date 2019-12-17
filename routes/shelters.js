@@ -4,22 +4,46 @@ var express = require("express"),
 	bodyParser = require('body-parser'),
 	Shelter = require("../models/shelter.js"),
 	Dog = require("../models/dog.js"),
-	User = require("../models/user.js"),
-	shelterUser = require("../models/shelterUser.js");
+	User = require("../models/user.js");
 
 
 //INDEX ROUTE
 router.get("/", function(req,res){
-	res.render("shelters/index.ejs");
+	Shelter.find({}, function(err, allShelters){
+		if(err){
+			console.log(err);
+			return res.redirect("back");
+		}
+		res.render("../views/shelters/index.ejs", {shelters: allShelters});
+	});
 });
 
 //NEW ROUTE - we have none, when a shelter's account is created, we ask for the informations of the shelter and the shelter gets created automatically and added to the shelters index page. the form that asks for the info to create de account sends a post request to /shelters
 
-//CREATE ROUTE - once a shelters account is created, we automatically create a shelter and add it to the shelters index page, the 'create account' button must redirect here
+//CREATE ROUTE - once a shelters account is created, we automatically create a shelter and add it to the shelters index page, the 'create account' button redirects here
 router.post("/", function(req, res){
-	//don't forget to not only create the shelter, but to create the shelter account as well
-	//I'm going to create a shelterUser and pass that information to create the shelter itself aswell
-	res.redirect("/shelters/" /* + shelter id */);
+	//once the user creates the shelter account with all the information necessary, we redirect as a post to this route so we can create the respective shelter object automatically
+	var newShelter = new Shelter({
+			author: {
+				id: req.user._id,
+				username: req.user.username
+			},
+			name: req.user.name,
+			address: req.user.address,
+			avatar: req.user.avatar,
+			description: req.user.description,
+			email: req.user.email,
+			phoneNumber: req.user.phoneNumber,
+			schedule: req.user.schedule,
+			websiteUrl: req.user.websiteUrl
+	});
+	Shelter.create(newShelter, function(err, shelter){
+		if(err){
+			console.log(err);
+			return res.redirect("/resgister/shelter");
+		}
+		res.redirect("/shelters");
+	});
 });
 
 //SHOW ROUTE

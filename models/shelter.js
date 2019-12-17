@@ -9,7 +9,7 @@ var shelterSchema = new mongoose.Schema({
 		username: String
 	},
 	name: String,
-	image: String,
+	avatar: String,
 	address: String,
 	description: String,
 	phoneNumber: String,

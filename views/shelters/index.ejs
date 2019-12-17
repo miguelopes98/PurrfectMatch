@@ -1,5 +1,23 @@
-<h1>
-	 SHELTERS INDEX PAGE YO
-</h1>
-<button><a href="/login">Login</a></button>
-<button><a href="/logout">Logout</a></button>
+<!DOCTYPE html>
+<html>
+<body>
+
+	<h1>
+		 SHELTERS INDEX PAGE YO
+	</h1>
+	<button><a href="/login">Login</a></button>
+	<button><a href="/logout">Logout</a></button>
+
+	<div>
+		<% for(var i = 0; i < shelters.length; i++){ %>
+			<div>
+				<p><%= shelters[i].name %> </p>
+				<img src="<%= shelters[i].avatar %>">
+				<button><a href="/shelters/<%= shelters[i]._id %>">See More</a></button>
+			</div>
+		<% } %>
+	</div>
+	
+	
+</body>
+</html>
