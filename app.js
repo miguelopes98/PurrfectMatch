@@ -1,14 +1,38 @@
 var express = require("express"),
 	app = express(),
 	mongoose = require('mongoose'),
+	passport = require("passport"),
+	bodyParser = require("body-parser"),
+	LocalStrategy = require("passport-local"),
+	passportLocalMongoose = require("passport-local-mongoose"),
 	Shelter = require("./models/shelter.js"),
 	Dog = require("./models/dog.js"),
 	User = require("./models/user.js"),
 	shelterUser = require("./models/shelterUser.js");
 
 mongoose.connect("mongodb://localhost:27017/purrfect_match", {useNewUrlParser: true, useUnifiedTopology:true});
+//body-parser set up
+app.use(bodyParser.urlencoded({extended:true}));
+//
 app.set("view engine", ".ejs");
 app.use(express.static("public"));
+
+//passport (authentication package) set up
+app.use(require("express-session")({
+	secret: "This is the secret that passport always wants",
+	resave: false,
+	saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+//for the regular user account
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+// for the shelters account, gotta check it later
+//passport.use(new LocalStrategy(shelterUser.authenticate()));
+/*passport.serializeUser(shelterUser.serializeUser());
+passport.deserializeUser(shelterUser.deserializeUser());*/
 
 //requiring routes
 var indexRoutes = require("./routes/index.js"),

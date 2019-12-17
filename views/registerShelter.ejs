@@ -8,6 +8,38 @@
 </h3>
 
 <!-- we send this data to the creat shelter route so the shelter is created instantly and sends to the show page automatically -->
-<form action="/shelters" method="POST">
-	<button>Submit</button>
+<form action="/register/shelter" method="POST">
+	<div>
+		<input type="text" name="username" placeholder="Username">
+	</div>
+	<div>
+		<input type="password" placeholder="Password" name="password">
+	</div>
+	<div>
+		<input type="text" placeholder="Shelter's Name" name="name">
+	</div>
+	<div>
+		<input type="text" name="avatar" placeholder="Profile Image Url">
+	</div>
+	<div>
+		<input type="text" name="address" placeholder="Address">
+	</div>
+	<div>
+		<input type="text" name="phoneNumber" placeholder="Phone Number">
+	</div>
+	<div>
+		<input type="email" name="email" placeholder="Email">
+	</div>
+	<div>
+		<input type="text" name="schedule" placeholder="Shelter's Schedule">
+	</div>
+	<div>
+		<input type="text" name="websiteUrl" placeholder="Shelter's Website">
+	</div>
+	<div>
+		<textarea name="description" placeholder="Tell us a bit about your shelter..."></textarea>
+	</div>
+	<div>
+		<button>Register!</button>
+	</div>
 </form>

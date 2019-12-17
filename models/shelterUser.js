@@ -5,7 +5,7 @@ var shelterUserSchema = new mongoose.Schema({
 	username: {type:String, unique: true, required: true},
 	password: String,
 	name: String,
-	image: String,
+	avatar: String,
 	address: String,
 	description: String,
 	phoneNumber: {type:String, unique: true, require: true},
