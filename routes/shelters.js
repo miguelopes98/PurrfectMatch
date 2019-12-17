@@ -42,7 +42,7 @@ router.post("/", function(req, res){
 			console.log(err);
 			return res.redirect("/resgister/shelter");
 		}
-		res.redirect("/shelters");
+		res.redirect("/shelters/" + shelter.id);
 	});
 });
 
