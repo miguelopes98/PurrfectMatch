@@ -14,6 +14,11 @@
 			<p><%= shelter.websiteUrl %></p>
 		</div>
 		<div class="alert alert-warning pull-right" role="alert">WARNING: Please note that if you press the 'Delete Account' button, you will delete this account, this shelter page, all the dogs, comments and reviews associated. Please be sure of what you want before taking this action.</div>
+		
+		<button class="btn btn-success btn-lg">
+			<a id="editButtonAnchor" href="/shelters/<%= shelter._id %>/dogs/new">Add Dog</a>
+		</button>
+		
 		<button class="btn btn-warning btn-lg">
 			<a id="editButtonAnchor" href="/shelters/<%= shelter._id %>/edit">Edit</a>
 		</button>

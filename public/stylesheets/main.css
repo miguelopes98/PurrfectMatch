@@ -17,6 +17,12 @@ label{
 	width: 100%;
 }
 
+/*selects the index page's grid. makes the ajust the display of shelters/dogs considering the height of its images*/
+#indexGrid{
+	display: flex;
+	flex-wrap: wrap;
+}
+
 #formCenter{
 	width: 40%;
 	margin: 25px auto;
