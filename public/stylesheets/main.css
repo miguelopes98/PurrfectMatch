@@ -1,3 +1,37 @@
 body{
 	padding-top: 70px;
 }
+
+label{
+	display: block;
+}
+
+/*so all images inside thumbnails fill the thumbnails up*/
+.thumbnail img{
+	height: 100%;
+	width: 100%;
+}
+
+#formCenter{
+	width: 40%;
+	margin: 25px auto;
+}
+
+#center{
+	text-align: center;
+}
+
+#inline{
+	display: inline;
+}
+
+#editButtonAnchor{
+	color: white;
+	text-decoration: none;
+}
+
+/* selects div with class thumbnail on show pages*/
+#showThumbnail{
+	width: 60%;
+	margin: auto;
+}

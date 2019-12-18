@@ -1,12 +1,50 @@
 <%- include ("../partials/header") %>
 
-<h1>
-	Edit shelter form
-</h1>
+<div class="container">
+	
+	<h1 id="center">Editing <%= shelter.name %></h1>
+	
+	<div class="container" id="formCenter">
 
-<!-- have to change the action url later -->
-<form action="/shelters/:id" method="POST">
-	<button>Submit</button>
-</form>
+		<form action="/shelters/<%= shelter._id %>" method="POST">
+			<div class="form-group">
+				<label for="name">Name</label>
+				<input class="form-control" type="text" value="<%= shelter.name %>" name="shelter[name]">
+			</div>
+			<div class="form-group">
+				<label for="avatar">Image Url</label>
+				<input class="form-control" type="text" value="<%= shelter.avatar %>" name="shelter[avatar]">
+			</div>
+			<div class="form-group">
+				<label for="address">Address</label>
+				<input class="form-control" type="text" value="<%= shelter.address %>" name="shelter[address]">
+			</div>
+			<div class="form-group">
+				<label for="description">Tell us a bit about your Shelter</label>
+				<textarea class="form-control" type="text" name="shelter[description]"><%= shelter.description %></textarea>
+			</div>
+			<div class="form-group">
+				<label for="phoneNumber">Phone Number</label>
+				<input class="form-control" type="text" value="<%= shelter.phoneNumber %>" name="shelter[phoneNumber]">
+			</div>
+			<div class="form-group">
+				<label for="email">Email</label>
+				<input class="form-control" type="email" value="<%= shelter.email %>" name="shelter[email]">
+			</div>
+			<div class="form-group">
+				<label for="schedule">Schedule</label>
+				<input class="form-control" type="text" value="<%= shelter.schedule %>" name="shelter[schedule]">
+			</div>
+			<div class="form-group">
+				<label for="websiteUrl">Website Url</label>
+				<input class="form-control" type="text" value="<%= shelter.websiteUrl %>" name="shelter[websiteUrl]">
+			</div>
+
+			<button class="btn btn-success">Submit</button>
+		</form>
+	
+	</div>
+</div>
+
 
 <%- include ("../partials/footer") %>

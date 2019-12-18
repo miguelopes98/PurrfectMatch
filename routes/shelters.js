@@ -7,7 +7,7 @@ var express = require("express"),
 	User = require("../models/user.js");
 
 
-//INDEX ROUTE
+//INDEX ROUTE - shows all existing shelters and fuzzy search
 router.get("/", function(req,res){
 	Shelter.find({}, function(err, allShelters){
 		if(err){
@@ -21,6 +21,7 @@ router.get("/", function(req,res){
 //NEW ROUTE - we have none, when a shelter's account is created, we ask for the informations of the shelter and the shelter gets created automatically and added to the shelters index page. the form that asks for the info to create de account sends a post request to /shelters
 
 //CREATE ROUTE - once a shelters account is created, we automatically create a shelter and add it to the shelters index page, the 'create account' button redirects here
+//needs a isloggedIn middleware
 router.post("/", function(req, res){
 	//once the user creates the shelter account with all the information necessary, we redirect as a post to this route so we can create the respective shelter object automatically
 	var newShelter = new Shelter({
@@ -46,24 +47,45 @@ router.post("/", function(req, res){
 	});
 });
 
-//SHOW ROUTE
+//SHOW ROUTE - shows more information about one shelter
 router.get("/:id", function(req, res){
-	res.render("shelters/show.ejs");
+	Shelter.findById(req.params.id, function(err, foundShelter){
+		if(err){
+			console.log(err);
+			return res.redirect("/shelters");
+		}
+		res.render("shelters/show.ejs", {shelter: foundShelter});
+	});
 });
 
-//EDIT ROUTE
-router.get("/shelters/:id/edit", function(req, res){
-	res.render("shelters/edit.ejs");
+//EDIT ROUTE - shows form to edit an existing shelter
+//needs a isloggedIn and a check Shelter ownership middleware
+router.get("/:id/edit", function(req, res){
+	Shelter.findById(req.params.id, function(err, foundShelter){
+		if(err){
+			console.log(err);
+			return res.redirect("back");
+		}
+		res.render("shelters/edit.ejs", {shelter: foundShelter});
+	});
 });
 
-//UPDATE ROUTE
-router.post("/shelters/:id", function(req, res){
-	res.redirect("/" + req.params.id);
+//UPDATE ROUTE - handles the update of the shelter in database
+//needs a isloggedIn and a check Shelter ownership middleware
+router.post("/:id", function(req, res){
+	Shelter.findByIdAndUpdate(req.params.id, req.body.shelter, function(err, updatedShelter){
+		if(err){
+			console.log(err);
+			return res.redirect("back");
+		}
+		res.redirect("/shelters/" + req.params.id);
+	});
 });
 
 
-//DESTROY ROUTE
-router.post("/shelters/:id/delete", function(req, res){
+//DESTROY ROUTE - deletes the shelter account, the shelter object, and all associated dogs, comments and reviews.
+//needs a isloggedIn and a checkShelterOwnership middleware
+router.post("/:id/delete", function(req, res){
 	res.redirect("/");
 });
 
