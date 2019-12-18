@@ -1,34 +1,43 @@
 <%- include ("./partials/header") %>
 
-<h1>
-	Enroll in our community and find your best friend!
-</h1>
+<div class="container">
+	<h1 id="center">Enroll in our community and find your best friend!</h1>
 
-<form action="/register/user" method="POST">
-	<div>
-		<input type="text" name="username" placeholder="Username">
+	<div class="container" id="formCenter">
+		<form action="/register/user" method="POST">
+			<div class="form-group">
+				<label for="username">Username</label>
+				<input class="form-control" type="text" name="username" placeholder="Username">
+			</div>
+			<div class="form-group">
+				<label for="password">password</label>
+				<input class="form-control" type="password" placeholder="Password" name="password">
+			</div>
+			<div class="form-group">
+				<label for="avatar">Profile Image Url</label>
+				<input class="form-control" type="text" name="avatar" placeholder="Profile Image Url">
+			</div>
+			<div class="form-group">
+				<label for="firstName">First Name</label>
+				<input class="form-control" type="text" name="firstName" placeholder="First Name">
+			</div>
+			<div class="form-group">
+				<label for="lastName">Last Name</label>
+				<input class="form-control" type="text" name="lastName" placeholder="Last Name">
+			</div>
+			<div class="form-group">
+				<label for="description">Tell us a bit about yourself</label>
+				<textarea class="form-control" name="description" placeholder="Tell us a bit about yourself..."></textarea>
+			</div>
+			<div class="form-group">
+				<label for="email">Email</label>
+				<input class="form-control" type="email" name="email" placeholder="Email">
+			</div>
+			
+			<button class="full btn btn-success">Register!</button>
+			
+		</form>
 	</div>
-	<div>
-		<input type="password" placeholder="Password" name="password">
-	</div>
-	<div>
-		<input type="text" name="avatar" placeholder="Profile Image Url">
-	</div>
-	<div>
-		<input type="text" name="firstName" placeholder="First Name">
-	</div>
-	<div>
-		<input type="text" name="lastName" placeholder="Last Name">
-	</div>
-	<div>
-		<textarea name="description" placeholder="Tell us a bit about yourself..."></textarea>
-	</div>
-	<div>
-		<input type="email" name="email" placeholder="Email">
-	</div>
-	<div>
-		<button>Register!</button>
-	</div>
-</form>
+</div>
 
 <%- include ("./partials/footer") %>

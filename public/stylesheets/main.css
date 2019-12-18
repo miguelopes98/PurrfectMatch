@@ -12,6 +12,11 @@ label{
 	width: 100%;
 }
 
+/*selects all form buttons, login buttons, submit edit form, the buttons that we want 100% width*/
+.full{
+	width: 100%;
+}
+
 #formCenter{
 	width: 40%;
 	margin: 25px auto;

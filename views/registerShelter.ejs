@@ -1,49 +1,62 @@
 <%- include ("./partials/header") %>
 
-<h1>
-	Register your Shelter
-</h1>
+<div class="container">
+	<h1 id="center">Register your Shelter</h1>
 
-<h3>
-	Make sure you are the owner of this shelter before you register!
-	<!-- in real life we would ask for documentation and delay the creation of the account until we confirmed that the user is the actual owner of a shelter-->
-</h3>
+	<div class="container" id="formCenter">
+		<div class="alert alert-warning" role="alert">
+			Warning: Make sure you are the owner of this shelter before you register!
+			<!-- in real life we would ask for documentation and delay the creation of the account until we confirmed that the user is the actual owner of a shelter-->
+		</div>
 
-<!-- we send this data to the creat shelter route so the shelter is created instantly and sends to the show page automatically -->
-<form action="/register/shelter" method="POST">
-	<div>
-		<input type="text" name="username" placeholder="Username">
+		<!-- we send this data to the creat shelter route so the shelter is created instantly and sends to the show page automatically -->
+		<form action="/register/shelter" method="POST">
+			<div class="form-group">
+				<label for="username">Username</label>
+				<input class="form-control" type="text" name="username" placeholder="Username" required>
+			</div>
+			<div class="form-group">
+				<label for="password">Password</label>
+				<input class="form-control" type="password" placeholder="Password" name="password" required>
+			</div>
+			<div class="form-group">
+				<label for="name">Shelter's Name</label>
+				<input class="form-control" type="text" placeholder="Shelter's Name" name="name" required>
+			</div>
+			<div class="form-group">
+				<label for="avatar">Shelter's Image Url</label>
+				<input class="form-control" type="text" name="avatar" placeholder="Profile Image Url" required>
+			</div>
+			<div class="form-group">
+				<label for="address">Address</label>
+				<input class="form-control" type="text" name="address" placeholder="Address" required>
+			</div>
+			<div class="form-group">
+				<label for="phoneNumber">Phone Number</label>
+				<input class="form-control" type="text" name="phoneNumber" placeholder="Phone Number" required>
+			</div>
+			<div class="form-group">
+				<label for="email">Email</label>
+				<input class="form-control" type="email" name="email" placeholder="Email" required>
+			</div>
+			<div class="form-group">
+				<label for="schedule">Schedule</label>
+				<input class="form-control" type="text" name="schedule" placeholder="Shelter's Schedule" required>
+			</div>
+			<div class="form-group">
+				<label for="websiteUrl">Website Url</label>
+				<input class="form-control" type="text" name="websiteUrl" placeholder="Shelter's Website" required>
+			</div>
+			<div class="form-group">
+				<label for="description">Tell us a bit about your shelter</label>
+				<textarea class="form-control" name="description" placeholder="Tell us a bit about your shelter..." required></textarea>
+			</div>
+			
+			<button class="full btn btn-success">Register!</button>
+			
+		</form>
 	</div>
-	<div>
-		<input type="password" placeholder="Password" name="password">
-	</div>
-	<div>
-		<input type="text" placeholder="Shelter's Name" name="name">
-	</div>
-	<div>
-		<input type="text" name="avatar" placeholder="Profile Image Url">
-	</div>
-	<div>
-		<input type="text" name="address" placeholder="Address">
-	</div>
-	<div>
-		<input type="text" name="phoneNumber" placeholder="Phone Number">
-	</div>
-	<div>
-		<input type="email" name="email" placeholder="Email">
-	</div>
-	<div>
-		<input type="text" name="schedule" placeholder="Shelter's Schedule">
-	</div>
-	<div>
-		<input type="text" name="websiteUrl" placeholder="Shelter's Website">
-	</div>
-	<div>
-		<textarea name="description" placeholder="Tell us a bit about your shelter..."></textarea>
-	</div>
-	<div>
-		<button>Register!</button>
-	</div>
-</form>
+</div>
+
 
 <%- include ("./partials/footer") %>
