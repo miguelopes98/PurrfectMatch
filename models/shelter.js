@@ -4,7 +4,7 @@ var shelterSchema = new mongoose.Schema({
 	author: {
 		id: {
 			type: mongoose.Schema.Types.ObjectId,
-			ref: "shelterUser"
+			ref: "User"
 		},
 		username: String
 	},
@@ -15,7 +15,11 @@ var shelterSchema = new mongoose.Schema({
 	phoneNumber: String,
 	email: {type: String, unique: true, required: true},
 	schedule: String,
-	websiteUrl: String
+	websiteUrl: String,
+	dogs: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "Dog"
+	}
 });
 
 module.exports = mongoose.model("Shelter", shelterSchema);
