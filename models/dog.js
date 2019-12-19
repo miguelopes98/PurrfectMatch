@@ -4,14 +4,14 @@ var dogSchema = new mongoose.Schema({
 	author: {
 		id: {
 			type: mongoose.Schema.Types.ObjectId,
-			ref: "User"
+			ref: "Shelter"
 		},
 		username: String
 	},
 	name: String,
 	breed: String,
 	age: String,
-	image: String,
+	avatar: String,
 	temperament: String,
 	medicalConditions: String,
 	personality: String

@@ -2,7 +2,7 @@
 
 <div class="container-fluid">
 
-	<div id="showThumbnail" class="thumbnail">
+	<div class="thumbnail showThumbnail">
 		<img src="<%= shelter.avatar %>">
 		<div class="caption">
 			<h3><%= shelter.name %></h3>
@@ -15,17 +15,37 @@
 		</div>
 		<div class="alert alert-warning pull-right" role="alert">WARNING: Please note that if you press the 'Delete Account' button, you will delete this account, this shelter page, all the dogs, comments and reviews associated. Please be sure of what you want before taking this action.</div>
 		
-		<button class="btn btn-success btn-lg">
-			<a id="editButtonAnchor" href="/shelters/<%= shelter._id %>/dogs/new">Add Dog</a>
-		</button>
+		<a class="btn btn-success btn-lg" href="/shelters/<%= shelter._id %>/dogs/new">Add Dog</a>
 		
-		<button class="btn btn-warning btn-lg">
-			<a id="editButtonAnchor" href="/shelters/<%= shelter._id %>/edit">Edit</a>
-		</button>
-		
-		<form class="pull-right" id="inline" action="/shelters/<%= shelter._id %>/delete" method="POST">
+		<form class="pull-right inline" action="/shelters/<%= shelter._id %>/delete" method="POST">
 			<button id="deleteAccount" class="btn btn-danger btn-lg" data-toggle="tooltip" data-placement="top" title="WARNING: Please note that if you press this button, you will delete this account, this shelter page and all the dogs, comments and reviews associated. Please be sure of what you want before taking this action.">Delete Account</button>
 		</form>
+		
+		<a class="btn btn-warning btn-lg pull-right" href="/shelters/<%= shelter._id %>/edit">Edit</a>
+		
+	</div>
+	
+	<div class="showThumbnail row">
+		
+		<div class="block" id="margin">
+			<h3 class="inline">Dogs Staying with us</h3>
+			<a class="btn btn-primary pull-right" href="/shelters/<%= shelter._id %>/dogs">View All Dogs</a>
+		</div>
+		
+		<!-- shows only the 12 first/oldest dogs of a shelter, to view all of them, user has to click the 'View All Dogs' button -->
+		<% for(var i = 0; i < shelter.dogs.slice(0,12).length; i++){ %>
+		<div class="col-md-2 col-sm-4">
+			<div class="thumbnail">
+				<img src="<%= shelter.dogs[i].avatar %>">
+				<div class="caption">
+					<p><%= shelter.dogs[i].name %></p>
+					<p><%= shelter.dogs[i].breed %>, <%= shelter.dogs[i].age %></p>
+					<a class="btn btn-primary btn-sm" href="/shelters/<%= shelter._id %>/dogs/<%= shelter.dogs[i]._id %>">See More</a>
+				</div>
+				
+			</div>
+		</div>
+		<% } %>
 		
 	</div>
 </div>

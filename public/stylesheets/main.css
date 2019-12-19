@@ -17,6 +17,20 @@ label{
 	width: 100%;
 }
 
+/* selects div with class showthumbnail on show pages*/
+.showThumbnail{
+	width: 60%;
+	margin: auto;
+}
+
+.inline{
+	display: inline;
+}
+
+.block{
+	display: block;
+}
+
 /*selects the index page's grid. makes the ajust the display of shelters/dogs considering the height of its images*/
 #indexGrid{
 	display: flex;
@@ -32,17 +46,6 @@ label{
 	text-align: center;
 }
 
-#inline{
-	display: inline;
-}
-
-#editButtonAnchor{
-	color: white;
-	text-decoration: none;
-}
-
-/* selects div with class thumbnail on show pages*/
-#showThumbnail{
-	width: 60%;
-	margin: auto;
+#margin{ /*selects div with h3 in shelter show page */
+	margin: 25px 20px;
 }

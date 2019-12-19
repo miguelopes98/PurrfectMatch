@@ -16,10 +16,12 @@ var shelterSchema = new mongoose.Schema({
 	email: {type: String, unique: true, required: true},
 	schedule: String,
 	websiteUrl: String,
-	dogs: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: "Dog"
-	}
+	dogs: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Dog"
+		}
+	]
 });
 
 module.exports = mongoose.model("Shelter", shelterSchema);

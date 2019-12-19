@@ -1,5 +1,26 @@
 <%- include ("../partials/header") %>
 
-<h1>Dog's Show page</h1>
+<div class="container-fluid">
+
+	<div class="thumbnail showThumbnail">
+		<img src="<%= dog.avatar %>">
+		<div class="caption">
+			<h3><%= dog.name %></h3>
+			<p><%= dog.breed %></p>
+			<p><%= dog.age %></p>
+			<p><%= dog.temperament %></p>
+			<p><%= dog.medicalConditions %></p>
+			<p><%= dog.personality %></p>
+		</div>
+		<div class="alert alert-warning pull-right" role="alert">WARNING: Please note this dog has been adopted you should press the 'Delete Dog' button so people won't think this dog is available for adoption</div>
+		
+		<a class="btn btn-warning btn-lg" href="/shelters/<%= shelter._id %>/dogs/<%= dog._id %>/edit">Edit</a>
+		
+		<form class="inline" action="/shelters/<%= shelter._id %>/dogs/<%= dog._id %>/delete" method="POST">
+			<button class="btn btn-danger btn-lg">Delete Dog</button>
+		</form>
+		
+	</div>
+</div>
 
 <%- include ("../partials/footer") %>

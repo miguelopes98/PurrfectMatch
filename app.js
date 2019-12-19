@@ -31,6 +31,7 @@ passport.deserializeUser(User.deserializeUser());
 
 //PASSING THE USER INFO TO ALL ROUTES
 //all routes run this middleware, that says in the respective templates that currentUser = req.user
+//we refer to the user as req.user in backEnd and currentUser in the frontEnd templates
 app.use(function(req, res, next){
 	res.locals.currentUser = req.user;
 	//res.locals.error = req.flash("error");

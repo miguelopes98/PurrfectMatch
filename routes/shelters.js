@@ -49,7 +49,7 @@ router.post("/", function(req, res){
 
 //SHOW ROUTE - shows more information about one shelter
 router.get("/:id", function(req, res){
-	Shelter.findById(req.params.id, function(err, foundShelter){
+	Shelter.findById(req.params.id).populate("dogs").exec(function(err, foundShelter){
 		if(err){
 			console.log(err);
 			return res.redirect("/shelters");
