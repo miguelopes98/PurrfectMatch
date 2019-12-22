@@ -6,7 +6,7 @@
 	
 	<div class="container" id="formCenter">
 
-		<form action="/shelters/<%= shelter._id %>/dogs/<%= dog._id %>" method="POST">
+		<form action="/shelters/<%= shelterId %>/dogs/<%= dog._id %>" method="POST">
 			<div class="form-group">
 				<label for="dog[name]">Name</label>
 				<input class="form-control" type="text" value="<%= dog.name %>" name="dog[name]" required>

@@ -6,7 +6,7 @@
 	
 	<div class="container" id="formCenter">
 
-		<form action="/shelters/<%= shelter._id %>/dogs/<%= dog._id %>/comments/<%= comment._id %>" method="POST">
+		<form action="/shelters/<%= shelterId %>/dogs/<%= dogId %>/comments/<%= comment._id %>" method="POST">
 			<div class="form-group">
 				<label for="comment[text]">Comment Content</label>
 				<input class="form-control" type="text" value="<%= comment.text %>" name="comment[text]" required>

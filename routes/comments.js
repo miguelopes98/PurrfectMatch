@@ -15,18 +15,12 @@ router.get("/", function(req, res){
 
 //NEW ROUTE - shows form to create a comment
 router.get("/new", function(req, res){
-	Shelter.findById(req.params.id, function(err, foundShelter){
+	Dog.findById(req.params.dogId, function(err, foundDog){
 		if(err){
 			console.log(err);
 			return res.redirect("back");
 		}
-		Dog.findById(req.params.dogId, function(err, foundDog){
-			if(err){
-				console.log(err);
-				return res.redirect("back");
-			}
-			res.render("comments/new.ejs", {shelter: foundShelter, dog: foundDog});
-		});
+		res.render("comments/new.ejs", {shelterId: req.params.id, dog: foundDog});
 	});
 });
 
@@ -56,24 +50,12 @@ router.post("/", function(req, res){
 
 //EDIT ROUTE - shows form to edit comment
 router.get("/:commentId/edit", function(req, res){
-	Shelter.findById(req.params.id, function(err, foundShelter){
+	Comment.findById(req.params.commentId, function(err, foundComment){
 		if(err){
 			console.log(err);
 			return res.redirect("back");
 		}
-		Dog.findById(req.params.dogId, function(err, foundDog){
-			if(err){
-				console.log(err);
-				return res.redirect("back");
-			}
-			Comment.findById(req.params.commentId, function(err, foundComment){
-				if(err){
-					console.log(err);
-					return res.redirect("back");
-				}
-				res.render("comments/edit.ejs", {shelter: foundShelter, dog: foundDog, comment: foundComment});
-			});
-		});
+		res.render("comments/edit.ejs", {shelterId: req.params.id, dogId: req.params.dogId, comment: foundComment});
 	});
 });
 
