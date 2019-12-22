@@ -79,7 +79,13 @@ router.get("/:commentId/edit", function(req, res){
 
 //UPDATE ROUTE - updates comment
 router.post("/:commentId", function(req, res){
-	
+	Comment.findByIdAndUpdate(req.params.commentId, req.body.comment, function(err, comment){
+		if(err){
+			console.log(err);
+			return res.redirect("back");
+		}
+		res.redirect("/shelters/" + req.params.id + "/dogs/" + req.params.dogId);
+	});
 });
 
 //DESTROY ROUTE - deletes a comment
