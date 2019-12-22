@@ -72,7 +72,13 @@ router.post("/:commentId", function(req, res){
 
 //DESTROY ROUTE - deletes a comment
 router.post("/:commentId/delete", function(req,res){
-	
+	Comment.findByIdAndRemove(req.params.commentId, function(err, foundComment){
+		if(err){
+			console.log(err);
+			return res.redirect("back");
+		}
+		res.redirect("/shelters/" + req.params.id + "/dogs/" + req.params.dogId);
+	});
 });
 
 module.exports = router;
