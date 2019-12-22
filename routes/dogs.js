@@ -98,7 +98,13 @@ router.get("/shelters/:id/dogs/:dogId/edit", function(req, res){
 
 //UPDATE ROUTE - update a dog from a shelter
 router.post("/shelters/:id/dogs/:dogId", function(req, res){
-	res.redirect("/" + req.params.id);
+	Dog.findByIdAndUpdate(req.params.dogId, req.body.dog, function(err, foundDog){
+		if(err){
+			console.log(err);
+			return res.redirect("back");
+		}
+		res.redirect("/shelters/" + req.params.id + "/dogs/" + req.params.dogId);
+	});
 });
 
 
