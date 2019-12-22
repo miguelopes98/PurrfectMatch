@@ -9,12 +9,12 @@ var express = require("express"),
 
 //INDEX ROUTE - shows comments for a specific dog
 router.get("/", function(req, res){
-	
+	res.render("comments/index.ejs")
 });
 
 //NEW ROUTE - shows form to create a comment
 router.get("/new", function(req, res){
-	
+	res.render("comments/new.ejs");
 });
 
 //CREATE ROUTE - creates comment
@@ -24,7 +24,7 @@ router.post("/", function(req, res){
 
 //EDIT ROUTE - shows form to edit comment
 router.get("/:commentId/edit", function(req, res){
-	
+	res.render("comments/edit.ejs");
 });
 
 //UPDATE ROUTE - updates comment
