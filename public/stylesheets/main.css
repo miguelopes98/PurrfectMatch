@@ -31,6 +31,19 @@ label{
 	display: block;
 }
 
+.border{ /*select the comments div's in the comments index page*/
+	border: 1px solid #b5b4b0;
+	border-radius: 5px;
+	border-color: #b5b4b0;
+	margin-bottom: 3px;
+	display: inline-block;
+	padding: 5px;
+}
+
+.marginLeft{ /*selects the edit button in the comments index page*/
+	margin-left: 5px;
+}
+
 /*selects the index page's grid. makes the ajust the display of shelters/dogs considering the height of its images*/
 #indexGrid{
 	display: flex;

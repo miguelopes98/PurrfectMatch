@@ -9,8 +9,13 @@ var express = require("express"),
 
 //INDEX ROUTE - shows comments for a specific dog
 router.get("/", function(req, res){
-	res.send("comments index page");
-	//res.render("comments/index.ejs")
+	Dog.findById(req.params.dogId).populate("comments").exec(function(err, foundDog){
+		if(err){
+			console.log(err);
+			return res.redirect("back");
+		}
+		res.render("comments/index.ejs", {shelterId: req.params.id, dog: foundDog});
+	});
 });
 
 //NEW ROUTE - shows form to create a comment

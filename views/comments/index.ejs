@@ -1,3 +1,30 @@
 <%- include ("../partials/header") %>
 
+<div class="container-fluid">
+	
+	
+	<div class="block text-center" id="margin">
+		<h1 class="inline"><%= dog.name %>'s Comments</h1>
+	</div>
+	
+	<div class="container-fluid">
+		<% for(var i = 0; i < dog.comments.length; i++){ %>
+			<div class="border">
+				<h4 class="inline">
+					<%= dog.comments[i].author.username %>
+				</h4>
+
+				<form class="inline" action="/shelters/<%= shelterId %>/dogs/<%= dog._id %>/comments/<%= dog.comments[i]._id %>/delete" method="POST">
+					<button class="pull-right btn btn-danger btn-xs">Delete</button>
+				</form>
+
+				<a href="/shelters/<%= shelterId %>/dogs/<%= dog._id %>/comments/<%= dog.comments[i]._id %>/edit" class="pull-right btn btn-warning btn-xs marginLeft">Edit</a>
+				<p><%= dog.comments[i].text %></p>
+			</div>
+			<hr>
+		<% } %>
+	</div>
+</div>
+
+
 <%- include ("../partials/footer") %>
