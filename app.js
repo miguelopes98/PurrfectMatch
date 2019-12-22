@@ -54,7 +54,7 @@ var indexRoutes = require("./routes/index.js"),
 app.use("/", indexRoutes); //routes non related with mongoose models
 app.use("/shelters", shelterRoutes); //routes related with the shelter model
 app.use("/", dogsRoutes); //routes related to the comment model, I can't do ("/dogs", dogsRoutes) since the index route is /dogs and the other routes are /shelter/:id/dogs
-app.use("/shelter/:id/dogs/:dogId/comments", commentRoutes); //routes related with the comment model
+app.use("/shelters/:id/dogs/:dogId/comments", commentRoutes); //routes related with the comment model
 //app.use("/campgrounds/:id/reviews", reviewRoutes); //routes related to the review model
 
 app.listen(process.env.PORT || 3000);
