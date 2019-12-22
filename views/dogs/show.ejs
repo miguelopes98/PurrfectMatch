@@ -27,15 +27,24 @@
 	<div class="showThumbnail row">
 		<div id="margin" class="block">
 			<h3 class="inline"><%= dog.name %>'s Comments</h3>
+			<a id="defaultButton" class="btn btn-default btn-sm pull-right" href="/shelters/<%= shelter._id %>/dogs/<%= dog._id %>/comments">View all comments</a>
 			<a class="btn btn-primary btn-sm pull-right" href="/shelters/<%= shelter._id %>/dogs/<%= dog._id %>/comments/new">Add New Comment</a>
 		</div>
 
 		<!-- Show the 4 oldest comments -->
 		<% for(var i = 0; i < dog.comments.slice(0,4).length; i++){ %>
 			<div>
-				<h4>
-					<%= dog.comments[i].author.username %>
-				</h4>
+				<div>
+					<h4 class="inline">
+						<%= dog.comments[i].author.username %>
+					</h4>
+					
+					<form class="inline" action="/shelters/<%= shelter._id %>/dogs/<%= dog._id %>/comments/<%= dog.comments[i]._id %>/delete" method="POST">
+						<button class="pull-right btn btn-danger btn-xs">Delete</button>
+					</form>
+					
+					<a href="/shelters/<%= shelter._id %>/dogs/<%= dog._id %>/comments/<%= dog.comments[i]._id %>/edit" class="pull-right btn btn-warning btn-xs">Edit</a>
+				</div>
 				<p><%= dog.comments[i].text %></p>
 			</div>
 		<% } %>

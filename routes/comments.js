@@ -9,7 +9,8 @@ var express = require("express"),
 
 //INDEX ROUTE - shows comments for a specific dog
 router.get("/", function(req, res){
-	res.render("comments/index.ejs")
+	res.send("comments index page");
+	//res.render("comments/index.ejs")
 });
 
 //NEW ROUTE - shows form to create a comment
@@ -55,7 +56,25 @@ router.post("/", function(req, res){
 
 //EDIT ROUTE - shows form to edit comment
 router.get("/:commentId/edit", function(req, res){
-	res.render("comments/edit.ejs");
+	Shelter.findById(req.params.id, function(err, foundShelter){
+		if(err){
+			console.log(err);
+			return res.redirect("back");
+		}
+		Dog.findById(req.params.dogId, function(err, foundDog){
+			if(err){
+				console.log(err);
+				return res.redirect("back");
+			}
+			Comment.findById(req.params.commentId, function(err, foundComment){
+				if(err){
+					console.log(err);
+					return res.redirect("back");
+				}
+				res.render("comments/edit.ejs", {shelter: foundShelter, dog: foundDog, comment: foundComment});
+			});
+		});
+	});
 });
 
 //UPDATE ROUTE - updates comment

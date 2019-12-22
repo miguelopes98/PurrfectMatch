@@ -49,3 +49,9 @@ label{
 #margin{ /*selects div with h3 in shelter show page */
 	margin: 25px 20px;
 }
+
+#defaultButton{ /* selects the 'view all comments' button in dog showpage */
+	border: 2px solid #f5b342;
+	border-radius: 5px;
+	color: #f5b342;
+}
