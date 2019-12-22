@@ -9,12 +9,12 @@ var express = require("express"),
 
 //GENERAL INDEX ROUTE - shows every existing dog and fuzzy search
 router.get("/dogs", function(req,res){
-	Dog.find({}, function(err, allDogs){
+	Shelter.find({}).populate("dogs").exec(function(err, allShelters){
 		if(err){
 			console.log(err);
 			return res.redirect("back");
 		}
-		res.render("dogs/generalIndex.ejs", {dogs: allDogs});
+		res.render("dogs/generalIndex.ejs", {shelters: allShelters});
 	});
 });
 
