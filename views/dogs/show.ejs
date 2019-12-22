@@ -21,9 +21,26 @@
 			<button class="btn btn-danger btn-lg">Delete Dog</button>
 		</form>
 		
-		<a class="btn btn-primary btn-lg pull-right" href="/shelters/<%= shelter._id %>/dogs/<%= dog._id %>/comments/new">Add New Comment</a>
-		
 	</div>
+
+	<!-- COMMENTS SECTION -->
+	<div class="showThumbnail row">
+		<div id="margin" class="block">
+			<h3 class="inline"><%= dog.name %>'s Comments</h3>
+			<a class="btn btn-primary btn-sm pull-right" href="/shelters/<%= shelter._id %>/dogs/<%= dog._id %>/comments/new">Add New Comment</a>
+		</div>
+
+		<!-- Show the 4 oldest comments -->
+		<% for(var i = 0; i < dog.comments.slice(0,4).length; i++){ %>
+			<div>
+				<h4>
+					<%= dog.comments[i].author.username %>
+				</h4>
+				<p><%= dog.comments[i].text %></p>
+			</div>
+		<% } %>
+	</div>
+	
 </div>
 
 <%- include ("../partials/footer") %>

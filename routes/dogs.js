@@ -70,7 +70,7 @@ router.get("/shelters/:id/dogs/:dogId", function(req, res){
 			console.log(err);
 			return res.redirect("back");
 		}
-		Dog.findById(req.params.dogId, function(err, foundDog){
+		Dog.findById(req.params.dogId).populate("comments").exec(function(err, foundDog){
 			if(err){
 				console.log(err);
 				return res.redirect("back");

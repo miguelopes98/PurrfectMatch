@@ -31,7 +31,26 @@ router.get("/new", function(req, res){
 
 //CREATE ROUTE - creates comment
 router.post("/", function(req, res){
-	res.send("pfffffffffffff");
+	Dog.findById(req.params.dogId, function(err, foundDog){
+		if(err){
+			console.log(err);
+			return res.redirect("back");
+		}
+		Comment.create(req.body.comment, function(err, newComment){
+			if(err){
+				console.log(err);
+				return res.redirect("back");
+			}
+			//adding author to created comment
+			newComment.author.id = req.user._id;
+			newComment.author.username = req.user.username;
+			newComment.save();
+			//adding comment to dog
+			foundDog.comments.push(newComment);
+			foundDog.save();
+			res.redirect("/shelters/" + req.params.id + "/dogs/" + req.params.dogId);
+		})
+	});
 });
 
 //EDIT ROUTE - shows form to edit comment

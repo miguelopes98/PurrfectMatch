@@ -9,8 +9,8 @@
 		<form action="/shelters/<%= shelter._id %>/dogs/<%= dog._id %>/comments" method="POST">
 			
 			<div class="form-group">
-				<label for="text">Comment Content</label>
-				<textarea class="form-control" placeholder="This dog is beautiful, I wish I lived nearby so I could adopt him..." name="text"></textarea>
+				<label for="comment[text]">Comment Content</label>
+				<textarea class="form-control" placeholder="This dog is beautiful, I wish I lived nearby so I could adopt him..." name="comment[text]"></textarea>
 			</div>
 
 			<button class="full btn btn-success">Add Comment to <%= dog.name %></button>
