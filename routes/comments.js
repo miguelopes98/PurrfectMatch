@@ -14,12 +14,24 @@ router.get("/", function(req, res){
 
 //NEW ROUTE - shows form to create a comment
 router.get("/new", function(req, res){
-	res.render("comments/new.ejs");
+	Shelter.findById(req.params.id, function(err, foundShelter){
+		if(err){
+			console.log(err);
+			return res.redirect("back");
+		}
+		Dog.findById(req.params.dogId, function(err, foundDog){
+			if(err){
+				console.log(err);
+				return res.redirect("back");
+			}
+			res.render("comments/new.ejs", {shelter: foundShelter, dog: foundDog});
+		});
+	});
 });
 
 //CREATE ROUTE - creates comment
 router.post("/", function(req, res){
-	
+	res.send("pfffffffffffff");
 });
 
 //EDIT ROUTE - shows form to edit comment

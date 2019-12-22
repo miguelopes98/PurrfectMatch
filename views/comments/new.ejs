@@ -1,3 +1,22 @@
 <%- include ("../partials/header") %>
 
+<div class="container">
+	
+	<h1 id="center">Adding Comment to <%= dog.name %></h1>
+	
+	<div class="container" id="formCenter">
+
+		<form action="/shelters/<%= shelter._id %>/dogs/<%= dog._id %>/comments" method="POST">
+			
+			<div class="form-group">
+				<label for="text">Comment Content</label>
+				<textarea class="form-control" placeholder="This dog is beautiful, I wish I lived nearby so I could adopt him..." name="text"></textarea>
+			</div>
+
+			<button class="full btn btn-success">Add Comment to <%= dog.name %></button>
+		</form>
+	
+	</div>
+</div>
+
 <%- include ("../partials/footer") %>
