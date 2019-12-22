@@ -81,7 +81,19 @@ router.get("/shelters/:id/dogs/:dogId", function(req, res){
 
 //EDIT ROUTE - show the form to edit a dog from a shelter
 router.get("/shelters/:id/dogs/:dogId/edit", function(req, res){
-	res.render("dogs/edit.ejs");
+	Shelter.findById(req.params.id, function(err, foundShelter){
+		if(err){
+			console.log(err);
+			return res.redirect("back");
+		}
+		Dog.findById(req.params.dogId, function(err, foundDog){
+			if(err){
+				console.log(err);
+				return res.redirect("back");
+			}
+			res.render("dogs/edit.ejs", {dog: foundDog, shelter: foundShelter});
+		});
+	});
 });
 
 //UPDATE ROUTE - update a dog from a shelter
