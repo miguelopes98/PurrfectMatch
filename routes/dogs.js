@@ -21,12 +21,12 @@ router.get("/dogs", function(req,res){
 
 //INDEX ROUTE - shows every existing dog of a specific shelter
 router.get("/shelters/:id/dogs", function(req, res){
-	Shelter.findById(req.params.id, function(err, foundShelter){
+	Shelter.findById(req.params.id).populate("dogs").exec(function(err, foundShelter){
 		if(err){
 			console.log(err);
 			return res.redirect("back");
 		}
-		res.render("dogs/index.ejs");
+		res.render("dogs/index.ejs", {shelter: foundShelter});
 	});
 });
 
