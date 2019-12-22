@@ -4,6 +4,7 @@ var express = require("express"),
 	bodyParser = require('body-parser'),
 	Shelter = require("../models/shelter.js"),
 	Dog = require("../models/dog.js"),
+	Comment = require("../models/comment.js"),
 	User = require("../models/user.js");
 
 

@@ -3,6 +3,7 @@ var express = require("express"),
 	passport = require("passport"),
 	Shelter = require("../models/shelter.js"),
 	Dog = require("../models/dog.js"),
+	Comment = require("../models/comment.js"),
 	User = require("../models/user.js");
 
 

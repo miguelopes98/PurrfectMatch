@@ -15,7 +15,13 @@ var dogSchema = new mongoose.Schema({
 	avatar: String,
 	temperament: String,
 	medicalConditions: String,
-	personality: String
+	personality: String,
+	comments: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Comment"
+		}
+	]
 	//for some reason mongoDB collections only auto create when we have at least one parameter unique:true in the schema, in this case, we don't want this anywhere, and mongoDB also creates a collections (if non existing) when we create a dog, so it's fine
 });
 
