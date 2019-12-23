@@ -1,0 +1,55 @@
+<%- include ("../partials/header") %>
+
+<div class="container-fluid">
+	
+	
+	<div class="block text-center" id="margin">
+		<h1 class="inline"><%= shelter.name %>'s Reviews</h1>
+	</div>
+	
+	<div class="container-fluid">
+		
+		<% if (shelter.rating === 0) { %>
+        	<h5>
+            	<em>No reviews yet.</em>
+        	</h5>
+        <% } else { %>
+        	<p>
+        	    <span class="fa fa-star checked"></span>
+        	    <span class="fa fa-star <% if (shelter.rating > 1.5) { %> checked <% } %>"></span>
+        	    <span class="fa fa-star <% if (shelter.rating > 2.5) { %> checked <% } %>"></span>
+        	    <span class="fa fa-star <% if (shelter.rating > 3.5) { %> checked <% } %>"></span>
+        	    <span class="fa fa-star <% if (shelter.rating > 4.5) { %> checked <% } %>"></span>
+        	    <em>(total reviews: <%= shelter.reviews.length %>)</em>
+        	</p>
+        	<p>
+        	    Current shelter rating: <strong><%= shelter.rating.toFixed(2) %></strong>
+        	</p>
+		
+			<h3>All of <%= shelter.name %>'s Reviews:</h3>
+		
+			<% for(var i = 0; i < shelter.reviews.length; i++){ %>
+				<div class="border">
+					<%- '<span class="fa fa-star checked"></span>'.repeat(shelter.reviews[i].rating) %><%- '<span class="fa fa-star"></span>'.repeat(5 - shelter.reviews[i].rating) %>
+					<h4 class="inline">
+						 - Review by: <%= shelter.reviews[i].author.username %>
+					</h4>
+
+					<div class="block">
+						<form class="inline" action="/shelters/<%= shelter._id %>/reviews/<%= shelter.reviews[i]._id %>/delete" method="POST">
+							<button class="pull-right btn btn-danger btn-xs">Delete</button>
+						</form>
+
+						<a href="/shelters/<%= shelter._id %>/reviews/<%= shelter.reviews[i]._id %>/edit" class="pull-right btn btn-warning btn-xs marginLeft">Edit</a>
+					</div>
+
+					<p><%= shelter.reviews[i].text %></p>
+				</div>
+				<hr>
+			<% } %>
+		<% } %>
+	</div>
+</div>
+
+
+<%- include ("../partials/footer") %>

@@ -10,7 +10,16 @@ var express = require("express"),
 
 //INDEX ROUTE - shows reviews for a specific shelter
 router.get("/", function(req, res){
-	res.render("reviews/index.ejs");
+	Shelter.findById(req.params.id).populate({
+		path: "reviews"//,
+        //options: {sort: {createdAt: -1}} // sorting the populated reviews array to show the latest first
+    }).exec(function(err, foundShelter){
+		if(err){
+			console.log(err);
+			return res.redirect("back");
+		}
+		res.render("reviews/index.ejs", {shelter: foundShelter});
+	});
 });
 
 //NEW ROUTE - shows form to create new review
@@ -26,7 +35,8 @@ router.get("/new", function(req, res){
 
 //CREATE ROUTE - creates a new review
 router.post("/", function(req, res){
-	Shelter.findById(req.params.id, function(err,foundShelter){
+	//we gotta populate so that when we try to access the ratings of each sehlter review, theres something there other than review id's, since we need to run the reviews array in the shelter
+	Shelter.findById(req.params.id).populate("reviews").exec(function(err,foundShelter){
 		if(err){
 			console.log(err);
 			return res.redirect("back");
@@ -37,6 +47,7 @@ router.post("/", function(req, res){
 			newReview.shelter = foundShelter._id;
 			newReview.save();
 			foundShelter.reviews.push(newReview);
+			foundShelter.rating = calculateAverage(foundShelter.reviews);
 			foundShelter.save();
 			res.redirect("/shelters/" + req.params.id);
 		});
@@ -58,5 +69,17 @@ router.post("/:reviewId/delete", function(req, res){
 	res.redirect("/shelters/" + req.params.id);
 });
 
+
+//defining the calculateAverage function
+function calculateAverage(reviews) {
+    if (reviews.length === 0) {
+        return 0;
+    }
+    var sum = 0;
+    reviews.forEach(function (element) {
+        sum += element.rating;
+    });
+    return sum / reviews.length;
+}
 
 module.exports = router;

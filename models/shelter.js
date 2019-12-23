@@ -27,7 +27,11 @@ var shelterSchema = new mongoose.Schema({
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "Review"
 		}
-	]
+	],
+    rating: {
+        type: Number,
+        default: 0
+    }
 });
 
 module.exports = mongoose.model("Shelter", shelterSchema);
