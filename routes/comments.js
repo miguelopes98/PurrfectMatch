@@ -78,12 +78,20 @@ router.post("/:commentId", function(req, res){
 
 //DESTROY ROUTE - deletes a comment
 router.post("/:commentId/delete", function(req,res){
+	//deleting comment
 	Comment.findByIdAndRemove(req.params.commentId, function(err, foundComment){
 		if(err){
 			console.log(err);
 			return res.redirect("back");
 		}
-		res.redirect("/shelters/" + req.params.id + "/dogs/" + req.params.dogId);
+		//removing deleted comment id from dog.comments array
+		Dog.findByIdAndUpdate(req.params.dogId, {$pull: {comments: req.params.commentId}}, {new: true}).populate("comments").exec(function(err, udpatedDog){
+			if(err){
+				console.log(err);
+				return res.redirect("back");
+			}
+			res.redirect("/shelters/" + req.params.id + "/dogs/" + req.params.dogId);
+		});
 	});
 });
 
