@@ -21,6 +21,12 @@ var shelterSchema = new mongoose.Schema({
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "Dog"
 		}
+	],
+	reviews: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Review"
+		}
 	]
 });
 
