@@ -67,7 +67,23 @@ router.get("/:reviewId/edit", function(req, res){
 
 //UPDATE ROUTE - updates a review
 router.post("/:reviewId", function(req, res){
-	res.redirect("/shelters/" + req.params.id);
+	//{new:true} so we don't end up with both versions of the review, by setting new to be true, mongoose will destroy the older version and replace it with the updated one
+	Review.findByIdAndUpdate(req.params.reviewId, req.body.review, {new: true}, function(err, updatedReview){
+		if(err){
+			console.log(err);
+			return res.redirect("back");
+		}
+		Shelter.findById(req.params.id).populate("reviews").exec(function(err, foundShelter){
+			if(err){
+				console.log(err);
+				return res.redirect("back");
+			}
+			//updating shelter's reviews average rating
+			foundShelter.rating = calculateAverage(foundShelter.reviews);
+			foundShelter.save();
+			res.redirect("/shelters/" + req.params.id);
+		});
+	});
 });
 
 //DESTROY ROUTE - deletes a review

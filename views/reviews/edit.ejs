@@ -3,7 +3,7 @@
 <div class="container">
     <div class="row">
         <h1 id="center">Editing Review</h1>
-            <form id="formCenter" action="/shelters/<%= shelterId %>/reviews" method="POST">
+            <form id="formCenter" action="/shelters/<%= shelterId %>/reviews/<%= review._id %>" method="POST">
                 <div class="form-group">
                     <label for="rating">Leave a rating:</label>
                     <fieldset class="starability-basic form-group" id="rating">
