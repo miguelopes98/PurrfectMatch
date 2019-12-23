@@ -56,7 +56,13 @@ router.post("/", function(req, res){
 
 //EDIT ROUTE - shows form to edit a review
 router.get("/:reviewId/edit", function(req, res){
-	res.render("reviews/edit.ejs");
+	Review.findById(req.params.reviewId, function(err, foundReview){
+		if(err){
+			console.log(err);
+			return res.redirect("back");
+		}
+		res.render("reviews/edit.ejs", {review: foundReview, shelterId: req.params.id});
+	});
 });
 
 //UPDATE ROUTE - updates a review
