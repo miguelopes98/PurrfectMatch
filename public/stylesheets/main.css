@@ -48,6 +48,10 @@ label{
 	color: yellow;
 }
 
+.margin{ /*selects divs in show pages */
+	margin: 25px 20px;
+}
+
 /*selects the index page's grid. makes the ajust the display of shelters/dogs considering the height of its images*/
 #indexGrid{
 	display: flex;
@@ -61,10 +65,6 @@ label{
 
 #center{
 	text-align: center;
-}
-
-#margin{ /*selects div with h3 in shelter show page */
-	margin: 25px 20px;
 }
 
 #defaultButton{ /* selects the 'view all comments' button in dog showpage */
