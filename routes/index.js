@@ -4,6 +4,7 @@ var express = require("express"),
 	Shelter = require("../models/shelter.js"),
 	Dog = require("../models/dog.js"),
 	Comment = require("../models/comment.js"),
+	Review = require("../models/reviews.js"),
 	User = require("../models/user.js");
 
 
