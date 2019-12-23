@@ -4,7 +4,7 @@ var dogSchema = new mongoose.Schema({
 	author: {
 		id: {
 			type: mongoose.Schema.Types.ObjectId,
-			ref: "Shelter"
+			ref: "User"
 		},
 		username: String
 	},

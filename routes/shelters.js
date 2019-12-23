@@ -88,7 +88,8 @@ router.post("/:id", function(req, res){
 //DESTROY ROUTE - deletes the shelter account, the shelter object, and all associated dogs, comments and reviews.
 //needs a isloggedIn and a checkShelterOwnership middleware
 router.post("/:id/delete", function(req, res){
-	res.redirect("/");
+	//gotta delete user account, respective shelter, associated dogs, associated comments to dogs, associated reviews to shelter and cloudinary images
+	res.redirect("/shelters/");
 });
 
 
