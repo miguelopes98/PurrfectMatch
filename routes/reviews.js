@@ -88,7 +88,22 @@ router.post("/:reviewId", function(req, res){
 
 //DESTROY ROUTE - deletes a review
 router.post("/:reviewId/delete", function(req, res){
-	res.redirect("/shelters/" + req.params.id);
+	Review.findByIdAndRemove(req.params.reviewId, function(err, review){
+		if(err){
+			console.log(err);
+			return res.redirect("back");
+		}
+		Shelter.findByIdAndUpdate(req.params.id, {$pull: {reviews: req.params.review_id}}, {new: true}).populate("reviews").exec(function(err, shelter){
+			if(err){
+				console.log(err);
+				return res.redirect("back");
+			}
+			//updating shelter's reviews average rating
+			shelter.rating = calculateAverage(shelter.reviews);
+			shelter.save();
+			res.redirect("back");
+		});
+	});
 });
 
 
