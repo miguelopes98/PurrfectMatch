@@ -35,7 +35,7 @@ router.get("/new", middleware.isLoggedIn, middleware.checkReviewExistence, funct
 });
 
 //CREATE ROUTE - creates a new review
-router.post("/", function(req, res){
+router.post("/", middleware.isLoggedIn, middleware.checkReviewExistence, function(req, res){
 	//we gotta populate so that when we try to access the ratings of each sehlter review, theres something there other than review id's, since we need to run the reviews array in the shelter
 	Shelter.findById(req.params.id).populate("reviews").exec(function(err,foundShelter){
 		if(err){
