@@ -13,12 +13,15 @@
 				<h4 class="inline">
 					<%= dog.comments[i].author.username %>
 				</h4>
+				
+				<% if(currentUser && dog.comments[i].author.id.equals(currentUser._id)){ %>
+					<form class="inline" action="/shelters/<%= shelterId %>/dogs/<%= dog._id %>/comments/<%= dog.comments[i]._id %>/delete" method="POST">
+						<button class="pull-right btn btn-danger btn-xs">Delete</button>
+					</form>
 
-				<form class="inline" action="/shelters/<%= shelterId %>/dogs/<%= dog._id %>/comments/<%= dog.comments[i]._id %>/delete" method="POST">
-					<button class="pull-right btn btn-danger btn-xs">Delete</button>
-				</form>
+					<a href="/shelters/<%= shelterId %>/dogs/<%= dog._id %>/comments/<%= dog.comments[i]._id %>/edit" class="pull-right btn btn-warning btn-xs marginLeft">Edit</a>
+				<% } %>
 
-				<a href="/shelters/<%= shelterId %>/dogs/<%= dog._id %>/comments/<%= dog.comments[i]._id %>/edit" class="pull-right btn btn-warning btn-xs marginLeft">Edit</a>
 				<p><%= dog.comments[i].text %></p>
 			</div>
 			<hr>
