@@ -44,7 +44,7 @@ router.get("/shelters/:id/dogs/new", middleware.isLoggedIn, middleware.checkShel
 });
 
 //CREATE ROUTE - creates a dog and adds it to shelter
-router.post("/shelters/:id/dogs", function(req, res){
+router.post("/shelters/:id/dogs", middleware.isLoggedIn, middleware.checkShelterOwnership, function(req, res){
 	Shelter.findById(req.params.id, function(err, foundShelter){
 		if(err){
 			console.log(err);
