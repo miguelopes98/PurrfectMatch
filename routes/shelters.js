@@ -63,7 +63,7 @@ router.get("/:id", function(req, res){
 
 //EDIT ROUTE - shows form to edit an existing shelter
 //needs a isloggedIn and a check Shelter ownership middleware
-router.get("/:id/edit", function(req, res){
+router.get("/:id/edit", middleware.isLoggedIn, middleware.checkShelterOwnership, function(req, res){
 	Shelter.findById(req.params.id, function(err, foundShelter){
 		if(err){
 			console.log(err);
@@ -75,7 +75,7 @@ router.get("/:id/edit", function(req, res){
 
 //UPDATE ROUTE - handles the update of the shelter in database
 //needs a isloggedIn and a check Shelter ownership middleware
-router.post("/:id", function(req, res){
+router.post("/:id", middleware.isLoggedIn, middleware.checkShelterOwnership, function(req, res){
 	Shelter.findByIdAndUpdate(req.params.id, req.body.shelter, function(err, updatedShelter){
 		if(err){
 			console.log(err);
@@ -88,7 +88,7 @@ router.post("/:id", function(req, res){
 
 //DESTROY ROUTE - deletes the shelter account, the shelter object, and all associated dogs, comments and reviews.
 //needs a isloggedIn and a checkShelterOwnership middleware
-router.post("/:id/delete", function(req, res){
+router.post("/:id/delete", middleware.isLoggedIn, middleware.checkShelterOwnership, function(req, res){
 	//gotta delete user account, respective shelter, associated dogs, associated comments to dogs, associated reviews to shelter and cloudinary images
 	res.redirect("/shelters/");
 });
