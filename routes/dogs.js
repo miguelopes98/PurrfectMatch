@@ -103,7 +103,7 @@ router.get("/shelters/:id/dogs/:dogId/edit", middleware.isLoggedIn, middleware.c
 });
 
 //UPDATE ROUTE - update a dog from a shelter
-router.post("/shelters/:id/dogs/:dogId", function(req, res){
+router.post("/shelters/:id/dogs/:dogId", middleware.isLoggedIn, middleware.checkDogOwnership, function(req, res){
 	Dog.findByIdAndUpdate(req.params.dogId, req.body.dog, function(err, foundDog){
 		if(err){
 			console.log(err);
@@ -115,12 +115,12 @@ router.post("/shelters/:id/dogs/:dogId", function(req, res){
 
 
 //DESTROY ROUTE - delete a dog from a shelter
-router.post("/shelters/:id/dogs/:dogId/delete", function(req, res){
+router.post("/shelters/:id/dogs/:dogId/delete", middleware.isLoggedIn, middleware.checkDogOwnership, function(req, res){
 	res.redirect("/shelters/" + req.params.id + "/dogs");
 });
 
 //LIKE DOG ROUTE - checks if user already liked to unlike a dog, if didn't like, then like the dog
-router.post("/shelters/:id/dogs/:dogId/like", function(req, res){
+router.post("/shelters/:id/dogs/:dogId/like", middleware.isLoggedIn, middleware.userIsUser, function(req, res){
 	Dog.findById(req.params.dogId, function(err, foundDog){
 		if(err){
 			console.log(err);
