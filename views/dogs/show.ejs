@@ -13,7 +13,10 @@
 			<p><%= dog.medicalConditions %></p>
 			<p><%= dog.personality %></p>
 		</div>
-		<div class="alert alert-warning pull-right" role="alert">WARNING: Please note this dog has been adopted you should press the 'Delete Dog' button so people won't think this dog is available for adoption</div>
+		
+		<% if(currentUser && dog.author.id.equals(currentUser._id)){ %>
+			<div class="alert alert-danger pull-right" role="alert">WARNING: Please note this dog has been adopted you should press the 'Delete Dog' button so people won't think this dog is available for adoption</div>
+		<% } %>
 		
 		<!-- LIKE BUTTON -->
 		<form class="inline" action="/shelters/<%= shelter._id %>/dogs/<%= dog._id %>/like" method="POST">
@@ -57,14 +60,15 @@
 		
 		
 		
-		
-		<!-- EDIT BUTTON -->
-		<a class="btn btn-warning btn-lg" href="/shelters/<%= shelter._id %>/dogs/<%= dog._id %>/edit">Edit</a>
-		
-		<!-- DELETE BUTTON -->
-		<form class="inline" action="/shelters/<%= shelter._id %>/dogs/<%= dog._id %>/delete" method="POST">
-			<button class="btn btn-danger btn-lg">Delete Dog</button>
-		</form>
+		<% if(currentUser && dog.author.id.equals(currentUser._id)){ %>
+			<!-- EDIT BUTTON -->
+			<a class="btn btn-warning btn-lg" href="/shelters/<%= shelter._id %>/dogs/<%= dog._id %>/edit">Edit</a>
+
+			<!-- DELETE BUTTON -->
+			<form class="inline" action="/shelters/<%= shelter._id %>/dogs/<%= dog._id %>/delete" method="POST">
+				<button class="btn btn-danger btn-lg">Delete Dog</button>
+			</form>
+		<% } %>
 		
 	</div>
 
@@ -72,8 +76,12 @@
 	<div class="showThumbnail row">
 		<div class="block margin">
 			<h3 class="inline"><%= dog.name %>'s Comments</h3>
-			<a id="defaultButton" class="btn btn-default btn-sm pull-right" href="/shelters/<%= shelter._id %>/dogs/<%= dog._id %>/comments">View all comments</a>
-			<a class="btn btn-primary btn-sm pull-right" href="/shelters/<%= shelter._id %>/dogs/<%= dog._id %>/comments/new">Add New Comment</a>
+			<a class="btn btn-warning btn-sm pull-right" href="/shelters/<%= shelter._id %>/dogs/<%= dog._id %>/comments">View all comments</a>
+			
+			<% if(currentUser && currentUser.role === "user"){ %>
+				<a class="btn btn-primary btn-sm pull-right" href="/shelters/<%= shelter._id %>/dogs/<%= dog._id %>/comments/new">Add New Comment</a>
+			<% } %>
+		
 		</div>
 
 		<!-- Show the 4 oldest comments -->
@@ -84,11 +92,13 @@
 						<%= dog.comments[i].author.username %>
 					</h4>
 					
-					<form class="inline" action="/shelters/<%= shelter._id %>/dogs/<%= dog._id %>/comments/<%= dog.comments[i]._id %>/delete" method="POST">
-						<button class="pull-right btn btn-danger btn-xs">Delete</button>
-					</form>
-					
-					<a href="/shelters/<%= shelter._id %>/dogs/<%= dog._id %>/comments/<%= dog.comments[i]._id %>/edit" class="pull-right btn btn-warning btn-xs">Edit</a>
+					<% if(currentUser && dog.comments[i].author.id.equals(currentUser._id)){ %>
+						<form class="inline" action="/shelters/<%= shelter._id %>/dogs/<%= dog._id %>/comments/<%= dog.comments[i]._id %>/delete" method="POST">
+							<button class="pull-right btn btn-danger btn-xs">Delete</button>
+						</form>
+
+						<a href="/shelters/<%= shelter._id %>/dogs/<%= dog._id %>/comments/<%= dog.comments[i]._id %>/edit" class="pull-right btn btn-warning btn-xs">Edit</a>
+					<% } %>
 				</div>
 				<p><%= dog.comments[i].text %></p>
 			</div>
