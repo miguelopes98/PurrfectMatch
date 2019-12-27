@@ -78,7 +78,7 @@ router.post("/:commentId", middleware.isLoggedIn, middleware.userIsUser, middlew
 });
 
 //DESTROY ROUTE - deletes a comment
-router.post("/:commentId/delete", function(req,res){
+router.post("/:commentId/delete", middleware.isLoggedIn, middleware.userIsUser, middleware.checkCommentOwnership, function(req,res){
 	//deleting comment
 	Comment.findByIdAndRemove(req.params.commentId, function(err, foundComment){
 		if(err){
