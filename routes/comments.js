@@ -21,7 +21,7 @@ router.get("/", function(req, res){
 });
 
 //NEW ROUTE - shows form to create a comment
-router.get("/new", middleware.isLoggedIn, middleware.userIsUser, middleware.checkReviewExistence, function(req, res){
+router.get("/new", middleware.isLoggedIn, middleware.userIsUser, function(req, res){
 	Dog.findById(req.params.dogId, function(err, foundDog){
 		if(err){
 			console.log(err);
@@ -32,7 +32,7 @@ router.get("/new", middleware.isLoggedIn, middleware.userIsUser, middleware.chec
 });
 
 //CREATE ROUTE - creates comment
-router.post("/", middleware.isLoggedIn, middleware.userIsUser, middleware.checkReviewExistence, function(req, res){
+router.post("/", middleware.isLoggedIn, middleware.userIsUser, function(req, res){
 	Dog.findById(req.params.dogId, function(err, foundDog){
 		if(err){
 			console.log(err);
@@ -56,7 +56,7 @@ router.post("/", middleware.isLoggedIn, middleware.userIsUser, middleware.checkR
 });
 
 //EDIT ROUTE - shows form to edit comment
-router.get("/:commentId/edit", function(req, res){
+router.get("/:commentId/edit", middleware.isLoggedIn, middleware.userIsUser, middleware.checkCommentOwnership, function(req, res){
 	Comment.findById(req.params.commentId, function(err, foundComment){
 		if(err){
 			console.log(err);
