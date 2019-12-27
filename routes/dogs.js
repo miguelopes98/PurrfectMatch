@@ -92,7 +92,7 @@ router.get("/shelters/:id/dogs/:dogId", function(req, res){
 });
 
 //EDIT ROUTE - show the form to edit a dog from a shelter
-router.get("/shelters/:id/dogs/:dogId/edit", function(req, res){
+router.get("/shelters/:id/dogs/:dogId/edit", middleware.isLoggedIn, middleware.checkDogOwnership, function(req, res){
 	Dog.findById(req.params.dogId, function(err, foundDog){
 		if(err){
 			console.log(err);
