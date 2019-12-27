@@ -88,7 +88,7 @@ router.post("/:reviewId", middleware.isLoggedIn, middleware.checkReviewOwnership
 });
 
 //DESTROY ROUTE - deletes a review
-router.post("/:reviewId/delete", function(req, res){
+router.post("/:reviewId/delete", middleware.isLoggedIn, middleware.checkReviewOwnership, function(req, res){
 	Review.findByIdAndRemove(req.params.reviewId, function(err, review){
 		if(err){
 			console.log(err);
