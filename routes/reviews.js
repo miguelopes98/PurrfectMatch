@@ -56,7 +56,7 @@ router.post("/", middleware.isLoggedIn, middleware.checkReviewExistence, functio
 });
 
 //EDIT ROUTE - shows form to edit a review
-router.get("/:reviewId/edit", function(req, res){
+router.get("/:reviewId/edit", middleware.isLoggedIn, middleware.checkReviewOwnership, function(req, res){
 	Review.findById(req.params.reviewId, function(err, foundReview){
 		if(err){
 			console.log(err);
@@ -67,7 +67,7 @@ router.get("/:reviewId/edit", function(req, res){
 });
 
 //UPDATE ROUTE - updates a review
-router.post("/:reviewId", function(req, res){
+router.post("/:reviewId", middleware.isLoggedIn, middleware.checkReviewOwnership, function(req, res){
 	//{new:true} so we don't end up with both versions of the review, by setting new to be true, mongoose will destroy the older version and replace it with the updated one
 	Review.findByIdAndUpdate(req.params.reviewId, req.body.review, {new: true}, function(err, updatedReview){
 		if(err){

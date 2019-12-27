@@ -34,9 +34,11 @@ middleware.checkShelterOwnership = function(req, res, next){
 			return res.redirect("back");
 		});
 	}
-	//if not logged in return to login
-	console.log("you need to be logged in to do this");
-	return res.redirect("/login");
+	else{
+		//if not logged in return to login
+		console.log("you need to be logged in to do this");
+		return res.redirect("/login");
+	}
 }
 
 //checkCommentOwnership - checks if a user is the owner of a comment
@@ -57,9 +59,11 @@ middleware.checkCommentOwnership = function(req, res, next){
 			return res.redirect("back");
 		});
 	}
-	//if not, redirect them to login
-	console.log("you need to be logged in to do this");
-	return res.redirect("/login");
+	else{
+		//if not, redirect them to login
+		console.log("you need to be logged in to do this");
+		return res.redirect("/login");
+	}
 }
 
 //checkReviewOwnership - checks if a user is the owner of a review
@@ -80,9 +84,11 @@ middleware.checkReviewOwnership = function(req, res, next){
 			return res.redirect("back");
 		});
 	}
-	//if the user isn't logged in, redirect him to login
-	console.log("you need to be logged in to do this");
-	return res.redirect("/login");
+	else{
+		//if the user isn't logged in, redirect him to login
+		console.log("you need to be logged in to do this");
+		return res.redirect("/login");
+	}
 }
 
 //checkReviewExistence - checks if the user already reviewed a shelter, we only allow one review per shelter, user can edit his review tho
@@ -139,9 +145,11 @@ middleware.checkDogOwnership = function(req, res, next){
 			return res.redirect("back");
 		});
 	}
-	//if the user isn't logged in
-	console.log("you need to be logged in to do that");
-	return res.redirect("/login");
+	else{
+		//if the user isn't logged in
+		console.log("you need to be logged in to do that");
+		return res.redirect("/login");
+	}
 }
 
 //userIsUser - checks if the user has a regular user account
