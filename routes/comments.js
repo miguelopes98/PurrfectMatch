@@ -21,7 +21,7 @@ router.get("/", function(req, res){
 });
 
 //NEW ROUTE - shows form to create a comment
-router.get("/new", function(req, res){
+router.get("/new", middleware.isLoggedIn, middleware.userIsUser, function(req, res){
 	Dog.findById(req.params.dogId, function(err, foundDog){
 		if(err){
 			console.log(err);

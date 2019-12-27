@@ -24,7 +24,7 @@ router.get("/", function(req, res){
 });
 
 //NEW ROUTE - shows form to create new review
-router.get("/new", middleware.isLoggedIn, middleware.checkReviewExistence, function(req, res){
+router.get("/new", middleware.isLoggedIn, middleware.checkReviewExistence, middleware.userIsUser, function(req, res){
 	Shelter.findById(req.params.id, function(err, foundShelter){
 		if(err){
 			console.log(err);
@@ -35,7 +35,7 @@ router.get("/new", middleware.isLoggedIn, middleware.checkReviewExistence, funct
 });
 
 //CREATE ROUTE - creates a new review
-router.post("/", middleware.isLoggedIn, middleware.checkReviewExistence, function(req, res){
+router.post("/", middleware.isLoggedIn, middleware.checkReviewExistence, middleware.userIsUser, function(req, res){
 	//we gotta populate so that when we try to access the ratings of each sehlter review, theres something there other than review id's, since we need to run the reviews array in the shelter
 	Shelter.findById(req.params.id).populate("reviews").exec(function(err,foundShelter){
 		if(err){
@@ -56,7 +56,7 @@ router.post("/", middleware.isLoggedIn, middleware.checkReviewExistence, functio
 });
 
 //EDIT ROUTE - shows form to edit a review
-router.get("/:reviewId/edit", middleware.isLoggedIn, middleware.checkReviewOwnership, function(req, res){
+router.get("/:reviewId/edit", middleware.isLoggedIn, middleware.checkReviewOwnership, middleware.userIsUser, function(req, res){
 	Review.findById(req.params.reviewId, function(err, foundReview){
 		if(err){
 			console.log(err);
@@ -67,7 +67,7 @@ router.get("/:reviewId/edit", middleware.isLoggedIn, middleware.checkReviewOwner
 });
 
 //UPDATE ROUTE - updates a review
-router.post("/:reviewId", middleware.isLoggedIn, middleware.checkReviewOwnership, function(req, res){
+router.post("/:reviewId", middleware.isLoggedIn, middleware.checkReviewOwnership, middleware.userIsUser, function(req, res){
 	//{new:true} so we don't end up with both versions of the review, by setting new to be true, mongoose will destroy the older version and replace it with the updated one
 	Review.findByIdAndUpdate(req.params.reviewId, req.body.review, {new: true}, function(err, updatedReview){
 		if(err){
@@ -88,7 +88,7 @@ router.post("/:reviewId", middleware.isLoggedIn, middleware.checkReviewOwnership
 });
 
 //DESTROY ROUTE - deletes a review
-router.post("/:reviewId/delete", middleware.isLoggedIn, middleware.checkReviewOwnership, function(req, res){
+router.post("/:reviewId/delete", middleware.isLoggedIn, middleware.checkReviewOwnership, middleware.userIsUser, function(req, res){
 	Review.findByIdAndRemove(req.params.reviewId, function(err, review){
 		if(err){
 			console.log(err);
