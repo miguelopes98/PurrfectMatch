@@ -36,11 +36,13 @@
 					</h4>
 
 					<div class="block">
-						<form class="inline" action="/shelters/<%= shelter._id %>/reviews/<%= shelter.reviews[i]._id %>/delete" method="POST">
-							<button class="pull-right btn btn-danger btn-xs">Delete</button>
-						</form>
+						<% if(currentUser && shelter.reviews[i].author.id.equals(currentUser._id)){ %>
+							<form class="inline" action="/shelters/<%= shelter._id %>/reviews/<%= shelter.reviews[i]._id %>/delete" method="POST">
+								<button class="pull-right btn btn-danger btn-xs">Delete</button>
+							</form>
 
-						<a href="/shelters/<%= shelter._id %>/reviews/<%= shelter.reviews[i]._id %>/edit" class="pull-right btn btn-warning btn-xs marginLeft">Edit</a>
+							<a href="/shelters/<%= shelter._id %>/reviews/<%= shelter.reviews[i]._id %>/edit" class="pull-right btn btn-warning btn-xs marginLeft">Edit</a>
+						<% } %>
 					</div>
 
 					<p><%= shelter.reviews[i].text %></p>
