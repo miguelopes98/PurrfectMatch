@@ -72,12 +72,21 @@ router.get("/shelters/:id/dogs/:dogId", function(req, res){
 			console.log(err);
 			return res.redirect("back");
 		}
-		Dog.findById(req.params.dogId).populate("comments").exec(function(err, foundDog){
+		Dog.findById(req.params.dogId).populate("comments likes").exec(function(err, foundDog){
 			if(err){
 				console.log(err);
 				return res.redirect("back");
 			}
-			res.render("dogs/show.ejs", {shelter: foundShelter, dog: foundDog});
+			
+			//checks if some user is logged in
+			if(req.user){
+				//if so, we check if the user already liked this dog and save the result (true or false) in the variable x to pass it to the template
+				var x;
+				foundDog.likes.some(function (like) {
+					x = like.equals(req.user._id);
+				});
+			}
+			res.render("dogs/show.ejs", {shelter: foundShelter, dog: foundDog, x: x});
 		});
 	});
 });
@@ -108,6 +117,38 @@ router.post("/shelters/:id/dogs/:dogId", function(req, res){
 //DESTROY ROUTE - delete a dog from a shelter
 router.post("/shelters/:id/dogs/:dogId/delete", function(req, res){
 	res.redirect("/shelters/" + req.params.id + "/dogs");
+});
+
+//LIKE DOG ROUTE - checks if user already liked to unlike a dog, if didn't like, then like the dog
+router.post("/shelters/:id/dogs/:dogId/like", function(req, res){
+	Dog.findById(req.params.dogId, function(err, foundDog){
+		if(err){
+			console.log(err);
+			return res.redirect("back");
+		}
+		
+		//checks if user already liked the dog, some function runs an array and returns true as soon as the condition in the callback is true for some item in the array
+		var likeIsInArray = foundDog.likes.some(function (like) {
+    		return like.equals(req.user._id);
+		});
+		
+		//if user liked the dog, then unlike dog
+		if(likeIsInArray){
+			foundDog.likes.pull(req.user._id);
+		}
+		//if user didn't like the dog yet, then like the dog
+		else{
+			foundDog.likes.push(req.user._id);
+		}
+		
+		foundDog.save(function(err){
+			if(err){
+				console.log(err);
+				return res.redirect("back");
+			}
+			return res.redirect("/shelters/" + req.params.id + "/dogs/" + req.params.dogId);
+		});
+	});
 });
 
 

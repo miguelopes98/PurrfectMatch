@@ -15,8 +15,22 @@
 		</div>
 		<div class="alert alert-warning pull-right" role="alert">WARNING: Please note this dog has been adopted you should press the 'Delete Dog' button so people won't think this dog is available for adoption</div>
 		
+		<!-- LIKE BUTTON -->
+		<form class="inline" action="/shelters/<%= shelter._id %>/dogs/<%= dog._id %>/like" method="POST">
+			<button class="btn btn-primary btn-lg"><i class="
+				<% if(currentUser){ %>
+					<% //checks if user already liked the dog, to figure out if the heart icon is red or not, if x is true, the user has liked, if x is false, the user didn't like the dog
+						if(x === true){ %>
+							likeActive
+					<% } %>
+				<% } %>
+				fas fa-heart"></i> Like (<%= dog.likes.length %>)</button>
+		</form>
+		
+		<!-- EDIT BUTTON -->
 		<a class="btn btn-warning btn-lg" href="/shelters/<%= shelter._id %>/dogs/<%= dog._id %>/edit">Edit</a>
 		
+		<!-- DELETE BUTTON -->
 		<form class="inline" action="/shelters/<%= shelter._id %>/dogs/<%= dog._id %>/delete" method="POST">
 			<button class="btn btn-danger btn-lg">Delete Dog</button>
 		</form>
