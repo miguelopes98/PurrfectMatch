@@ -13,15 +13,18 @@
 			<p><%= shelter.phoneNumber %></p>
 			<p><%= shelter.websiteUrl %></p>
 		</div>
-		<div class="alert alert-warning pull-right" role="alert">WARNING: Please note that if you press the 'Delete Account' button, you will delete this account, this shelter page, all the dogs, comments and reviews associated. Please be sure of what you want before taking this action.</div>
 		
-		<a class="btn btn-success btn-lg" href="/shelters/<%= shelter._id %>/dogs/new">Add Dog</a>
+		<% if(currentUser && shelter.author.id.equals(currentUser._id)){ %>
+			<div class="alert alert-danger pull-right" role="alert">WARNING: Please note that if you press the 'Delete Account' button, you will delete this account, this shelter page, all the dogs, comments and reviews associated. Please be sure of what you want before taking this action.</div>
+			<a class="btn btn-success btn-lg" href="/shelters/<%= shelter._id %>/dogs/new">Add Dog</a>
+			<form class="pull-right inline" action="/shelters/<%= shelter._id %>/delete" method="POST">
+				<button id="deleteAccount" class="btn btn-danger btn-lg" data-toggle="tooltip" data-placement="top" title="WARNING: Please note that if you press this button, you will delete this account, this shelter page and all the dogs, comments and reviews associated. Please be sure of what you want before taking this action.">Delete Account</button>
+			</form>
+
+			<a class="btn btn-warning btn-lg pull-right" href="/shelters/<%= shelter._id %>/edit">Edit</a>
+		<% } %>
 		
-		<form class="pull-right inline" action="/shelters/<%= shelter._id %>/delete" method="POST">
-			<button id="deleteAccount" class="btn btn-danger btn-lg" data-toggle="tooltip" data-placement="top" title="WARNING: Please note that if you press this button, you will delete this account, this shelter page and all the dogs, comments and reviews associated. Please be sure of what you want before taking this action.">Delete Account</button>
-		</form>
 		
-		<a class="btn btn-warning btn-lg pull-right" href="/shelters/<%= shelter._id %>/edit">Edit</a>
 		
 	</div>
 	
@@ -54,8 +57,10 @@
 	<div class="showThumbnail row">
 		<div class="block margin">
 			<h3 class="inline"><%= shelter.name %>'s Reviews</h3> <em>(total reviews: <%= shelter.reviews.length %>)</em>
-			<a id="defaultButton" class="btn btn-default btn-sm pull-right" href="/shelters/<%= shelter._id %>/reviews">View all reviews</a>
-			<a class="btn btn-primary btn-sm pull-right" href="/shelters/<%= shelter._id %>/reviews/new">Add New Review</a>
+			<a class="btn btn-warning btn-sm pull-right" href="/shelters/<%= shelter._id %>/reviews">View all reviews</a>
+			<% if(currentUser && currentUser.role === "user"){ %>
+				<a class="btn btn-primary btn-sm pull-right" href="/shelters/<%= shelter._id %>/reviews/new">Add New Review</a>
+			<% } %>
 		</div>
 
 		<!-- Show the 4 oldest reviews -->
@@ -71,11 +76,14 @@
         	    <span class="fa fa-star <% if (shelter.reviews[i].rating > 4.5) { %> checked <% } %>"></span>
 					</h4>
 					
-					<form class="inline" action="/shelters/<%= shelter._id %>/reviews/<%= shelter.reviews[i]._id %>/delete" method="POST">
-						<button class="pull-right btn btn-danger btn-xs">Delete</button>
-					</form>
+					<% if(currentUser && shelter.reviews[i].author.id.equals(currentUser._id)){ %>
+						<form class="inline" action="/shelters/<%= shelter._id %>/reviews/<%= shelter.reviews[i]._id %>/delete" method="POST">
+							<button class="pull-right btn btn-danger btn-xs">Delete</button>
+						</form>
+
+						<a href="/shelters/<%= shelter._id %>/reviews/<%= shelter.reviews[i]._id %>/edit" class="pull-right btn btn-warning btn-xs">Edit</a>
+					<% } %>
 					
-					<a href="/shelters/<%= shelter._id %>/reviews/<%= shelter.reviews[i]._id %>/edit" class="pull-right btn btn-warning btn-xs">Edit</a>
 				</div>
 				<p><%= shelter.reviews[i].text %></p>
 			</div>
