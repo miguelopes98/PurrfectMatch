@@ -17,14 +17,11 @@
 		
 		<!-- LIKE BUTTON -->
 		<form class="inline" action="/shelters/<%= shelter._id %>/dogs/<%= dog._id %>/like" method="POST">
-			<button class="btn btn-primary btn-lg"><i class="
-				<% if(currentUser){ %>
-					<% //checks if user already liked the dog, to figure out if the heart icon is red or not, if x is true, the user has liked, if x is false, the user didn't like the dog
-						if(x === true){ %>
-							likeActive
-					<% } %>
-				<% } %>
-				fas fa-heart"></i> Like (<%= dog.likes.length %>)</button>
+			<% if(currentUser && x === true){ //checks if user already liked the dog, to figure out if the heart icon is red or not, if x is true, the user has liked, if x is false, the user didn't like the dog %>
+				<button class="btn btn-primary btn-lg"><i class="likeActive fas fa-heart"></i> Liked (<%= dog.likes.length %>)</button>
+			<% } else{ %>
+				<button class="btn btn-primary btn-lg"><i class="fas fa-heart"></i> Like (<%= dog.likes.length %>)</button>
+			<% } %>
 		</form>
 		
 		<!-- EDIT BUTTON -->
