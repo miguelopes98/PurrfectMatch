@@ -33,7 +33,7 @@ router.get("/shelters/:id/dogs", function(req, res){
 });
 
 //NEW ROUTE - shows the form to create a dog
-router.get("/shelters/:id/dogs/new", function(req, res){
+router.get("/shelters/:id/dogs/new", middleware.isLoggedIn, middleware.checkShelterOwnership, function(req, res){
 	Shelter.findById(req.params.id, function(err, foundShelter){
 		if(err){
 			console.log(err);
