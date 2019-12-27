@@ -7,4 +7,12 @@ var Shelter = require("../models/shelter.js"),
 //we're creating a middleware object to add a bunch of methods and export that object to the routes files
 var middleware = {};
 
+//WRITING THE MIDDLEWARE TO CHECK IF A USER IS LOGGED IN
+middleware.isLoggedIn = function(req, res, next){
+	if(req.isAuthenticated()){
+		return next();
+	}
+	return res.redirect("/login");
+}
+
 module.exports = middleware;
