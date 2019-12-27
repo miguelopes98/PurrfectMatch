@@ -21,7 +21,7 @@ router.get("/", function(req, res){
 });
 
 //NEW ROUTE - shows form to create a comment
-router.get("/new", middleware.isLoggedIn, middleware.userIsUser, function(req, res){
+router.get("/new", middleware.isLoggedIn, middleware.userIsUser, middleware.checkReviewExistence, function(req, res){
 	Dog.findById(req.params.dogId, function(err, foundDog){
 		if(err){
 			console.log(err);
@@ -32,7 +32,7 @@ router.get("/new", middleware.isLoggedIn, middleware.userIsUser, function(req, r
 });
 
 //CREATE ROUTE - creates comment
-router.post("/", function(req, res){
+router.post("/", middleware.isLoggedIn, middleware.userIsUser, middleware.checkReviewExistence, function(req, res){
 	Dog.findById(req.params.dogId, function(err, foundDog){
 		if(err){
 			console.log(err);
