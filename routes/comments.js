@@ -67,7 +67,7 @@ router.get("/:commentId/edit", middleware.isLoggedIn, middleware.userIsUser, mid
 });
 
 //UPDATE ROUTE - updates comment
-router.post("/:commentId", function(req, res){
+router.post("/:commentId", middleware.isLoggedIn, middleware.userIsUser, middleware.checkCommentOwnership, function(req, res){
 	Comment.findByIdAndUpdate(req.params.commentId, req.body.comment, function(err, comment){
 		if(err){
 			console.log(err);
