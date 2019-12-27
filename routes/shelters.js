@@ -24,8 +24,8 @@ router.get("/", function(req,res){
 //NEW ROUTE - we have none, when a shelter's account is created, we ask for the informations of the shelter and the shelter gets created automatically and added to the shelters index page. the form that asks for the info to create de account sends a post request to /shelters
 
 //CREATE ROUTE - once a shelters account is created, we automatically create a shelter and add it to the shelters index page, the 'create account' button redirects here
-//needs a isloggedIn middleware
-router.post("/", function(req, res){
+//needs to be logged in on a shelterUser type account
+router.post("/", middleware.isLoggedIn, middleware.shelterUser, function(req, res){
 	//once the user creates the shelter account with all the information necessary, we redirect as a post to this route so we can create the respective shelter object automatically
 	var newShelter = new Shelter({
 			author: {

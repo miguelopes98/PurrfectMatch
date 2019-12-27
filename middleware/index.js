@@ -149,7 +149,7 @@ middleware.userIsUser = function(req, res, next){
 	//if user is logged in
 	if(req.isAuthenticated()){
 		//if user is a regular user
-		if(req.user.role === user){
+		if(req.user.role === "user"){
 			return next();
 		}
 		//if user is a shelterUser
@@ -162,11 +162,11 @@ middleware.userIsUser = function(req, res, next){
 }
 
 //shelterUser - checks if the user is a shelterUser account
-middleware.userIsUser = function(req, res, next){
+middleware.shelterUser = function(req, res, next){
 	//if user is logged in
 	if(req.isAuthenticated()){
 		//if user has a shelterUser account
-		if(req.user.role === shelterUser){
+		if(req.user.role === "shelterUser"){
 			return next();
 		}
 		//if user is a regular user
