@@ -24,7 +24,7 @@ router.get("/", function(req, res){
 });
 
 //NEW ROUTE - shows form to create new review
-router.get("/new", function(req, res){
+router.get("/new", middleware.checkReviewExistence, function(req, res){
 	Shelter.findById(req.params.id, function(err, foundShelter){
 		if(err){
 			console.log(err);

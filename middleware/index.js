@@ -94,22 +94,30 @@ middleware.checkReviewExistence = function(req, res, next){
 				console.log(err);
 				return res.redirect("back");
 			}
+			//we re going to save the review that the user has done previously in foundReview variable so we can pass it to the template
+			var foundReview = {};
 			//checks if there is any review in this shelter that the review author matches the user, meaning that the user already reviewed this shelter
 			var alreadyReviewed = foundShelter.reviews.some(function(review){
+				if(review.author.id.equals(req.user._id)){
+					foundReview = review;
+				}
 				return review.author.id.equals(req.user._id);
 			});
 			//if the user already reviewed
 			if(alreadyReviewed){
-				console.log("you already reviewed this shelter. you can only review each shelter once");
-				return res.redirect("back");
+				console.log("you already reviewed this shelter. you can only review each shelter once. do you want to change your review?");
+				
+				return res.render("reviews/editOrNot.ejs", {shelter: foundShelter, review: foundReview});
 			}
 			//if the user didn't reviewed this shelter yet
 			return next();
 		});
 	}
-	//if the user isn't logged in
-	console.log("you need to be logged in to do that");
-	return res.redirect("/login");
+	else{
+		//if the user isn't logged in
+		console.log("you need to be logged in to do that");
+		return res.redirect("/login");
+	}
 }
 
 
