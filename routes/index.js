@@ -1,6 +1,7 @@
 var express = require("express"),
 	router = express.Router({mergeParams: true}),
 	passport = require("passport"),
+	middleware = require("../middleware/index.js"),
 	Shelter = require("../models/shelter.js"),
 	Dog = require("../models/dog.js"),
 	Comment = require("../models/comment.js"),
