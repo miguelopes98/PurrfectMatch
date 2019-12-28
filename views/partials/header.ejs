@@ -11,22 +11,22 @@
 		<nav class="navbar navbar-default navbar-fixed-top">
 		  <div class="container-fluid">
 			<div class="navbar-header">
-			  <a class="navbar-brand" href="/">
+			  <a id="white" class="navbar-brand" href="/">
 				<i class="fas fa-paw"></i> Purrfect Match
 			  </a>
 			</div>
 			<% if(currentUser){ %>
 				<p class="navbar-text navbar-right">
-					<a href="/logout" class="navbar-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
+					<a id="white1" href="/logout" class="navbar-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
 				</p>
 				<!-- 'SIGNED IN AS' IS A BUTTON THAT LEADS TO THE USER PROFILE PAGE -->
-				 <p class="navbar-text navbar-right"><i class="fas fa-users-cog"></i> Signed in as <a href="#" class="navbar-link"><%= currentUser.username %></a></p>
+				 <p id="white2" class="navbar-text navbar-right"><i class="fas fa-users-cog"></i> Signed in as <a href="#" class="navbar-link"><%= currentUser.username %></a></p>
 			<% } else{ %>
 				<p class="navbar-text navbar-right">
-					<a href="/register" class="navbar-link"><i class="fas fa-user-plus"></i> Register</a>
+					<a id="white3" href="/register" class="navbar-link"><i class="fas fa-user-plus"></i> Register</a>
 				</p>
 				<p class="navbar-text navbar-right">
-					<a href="/login" class="navbar-link"><i class="fas fa-sign-in-alt"></i> Login</a>
+					<a id="white4" href="/login" class="navbar-link"><i class="fas fa-sign-in-alt"></i> Login</a>
 				</p>
 			<% } %>
 		  </div>

@@ -36,6 +36,14 @@ label{
 	display: block;
 }
 
+.navbar-default{ /* selects navbar */
+	background-color: #5cb85c;
+}
+
+.navbar-right{ /* selects the text on the navbar that gets pushed to the right */
+	margin-right: 5px;
+}
+
 .border{ /*select the comments div's in the comments index page*/
 	border: 1px solid #b5b4b0;
 	border-radius: 5px;
@@ -76,4 +84,22 @@ label{
 	border: 2px solid #f5b342;
 	border-radius: 5px;
 	color: #f5b342;
+}
+
+/* it was the only way to overcome the bootstrap specificty since im lazy */
+#white{ /*selects the navbar brand */
+	color: white;
+}
+
+#white1{ /*selects the navbar logout button */
+	color: white;
+}
+#white2{ /*selects the navbar 'signed in as' button */
+	color: white;
+}
+#white3{ /*selects the navbar register button */
+	color: white;
+}
+#white4{ /*selects the navbar login button */
+	color: white;
 }
