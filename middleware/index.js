@@ -152,6 +152,40 @@ middleware.checkDogOwnership = function(req, res, next){
 	}
 }
 
+//userOwnership - checks if the user is the owner of a user page
+middleware.userOwnership = function(req, res, next){
+	//if user is logged in
+	if(req.isAuthenticated()){
+		//if user is a regular user
+		if(req.user.role === "user"){
+			User.findById(req.params.userId, function(err, foundUser){
+				if(err){
+					console.log(err);
+					return res.redirect("back");
+				}
+				if(foundUser._id.equals(req.user._id)){
+					console.log("user is owner");
+					return next();
+				}
+				else{
+					console.log("you need to be the owner of this user's account to do that");
+					return res.redirect("back");
+				}
+			});
+		}
+		
+		else{
+			console.log("you need to be log in through a regular user account to do that");
+			return res.redirect("/login");
+		}
+	}
+	
+	else{
+		console.log("you need to be logged in for that");
+		return res.redirect("back");
+	}
+}
+
 //userIsUser - checks if the user has a regular user account
 middleware.userIsUser = function(req, res, next){
 	//if user is logged in

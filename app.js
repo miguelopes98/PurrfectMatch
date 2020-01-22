@@ -46,6 +46,7 @@ var indexRoutes = require("./routes/index.js"),
 	shelterRoutes = require("./routes/shelters.js"),
 	dogsRoutes = require("./routes/dogs.js"),
 	reviewRoutes = require("./routes/reviews.js"),
+	userRoutes = require("./routes/users.js"),
 	commentRoutes = require("./routes/comments.js");
 
 
@@ -58,5 +59,6 @@ app.use("/shelters", shelterRoutes); //routes related with the shelter model
 app.use("/", dogsRoutes); //routes related to the comment model, I can't do ("/dogs", dogsRoutes) since the index route is /dogs and the other routes are /shelter/:id/dogs
 app.use("/shelters/:id/dogs/:dogId/comments", commentRoutes); //routes related with the comment model
 app.use("/shelters/:id/reviews", reviewRoutes); //routes related to the review model
+app.use("/users", userRoutes); //routes related to the user model
 
 app.listen(process.env.PORT || 3000);
