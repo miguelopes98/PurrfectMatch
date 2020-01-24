@@ -117,14 +117,23 @@ router.post("/shelters/:id/dogs/:dogId", middleware.isLoggedIn, middleware.check
 //DESTROY ROUTE - delete a dog from a shelter
 router.post("/shelters/:id/dogs/:dogId/delete", middleware.isLoggedIn, middleware.checkDogOwnership, function(req, res){
 	//we use async so that the dog is only removed once all the likes and comments are removed, async only allows a function to run after everything inside is ran basically
-	Dog.findByIdAndRemove(req.params.dogId, async function(err, dog){
+	Dog.findByIdAndRemove(req.params.dogId, async function(err, foundDog){
 		if(err){
 			console.log(err);
 			return res.redirect("back");
 		}
-		
-	})
-	res.redirect("/shelters/" + req.params.id + "/dogs");
+		else{
+			//delete all the comments associated with the dog we're about to remove
+			Comment.remove({"_id": {$in: foundDog.comments}}, function (err) {
+				if(err){
+					console.log(err);
+					return res.redirect("back");
+				}
+				foundDog.remove();
+				return res.redirect("/shelters/" + req.params.id);
+			});
+		}
+	});
 });
 
 //LIKE DOG ROUTE - checks if user already liked to unlike a dog, if didn't like, then like the dog

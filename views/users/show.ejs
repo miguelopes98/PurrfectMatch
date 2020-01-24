@@ -23,7 +23,7 @@
 		
 		<% if(currentUser && currentUser.role === "user"){ %>
 			<% if(!(user._id.equals(currentUser._id))){ %>
-				<a class="btn btn-primary btn-lg" href="/messages/<%= user._id %>">Send a message to <%= user.username %></a>
+				<a class="btn btn-primary btn-lg" href="/users/<%= currentUser._id %>/messages/<%= user._id %>">Send a message to <%= user.username %></a>
 			<% } %>
 		<% } %>
 		
