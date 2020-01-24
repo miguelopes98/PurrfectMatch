@@ -16,7 +16,11 @@
 					<a href="/users/<%= user._id %>/messages" class="btn btn-lg btn-primary pull-right">See Messages</a>
 				<% } %>
 			<% } %>
-			<p><strong>Name: </strong><%= user.firstName %> <%= user.lastName %></p>
+			<% if(user.role === "user"){ %>
+				<p><strong>Name: </strong><%= user.firstName %> <%= user.lastName %></p>
+			<% } else { %>
+				<p><strong>Name: </strong><%= user.name %></p>
+			<% } %>
 			<p><strong>What you need to know about <%= user.username %>: </strong><%= user.description %></p>
 			<p><strong>Contacts: </strong><%= user.email %></p>
 		</div>

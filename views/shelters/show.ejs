@@ -30,12 +30,17 @@
 	
 	<!-- DOGS SECTION -->
 	<div class="showThumbnail row">
-		
+
 		<div class="block margin">
 			<h3 class="inline">Dogs Staying with us</h3>
+			<p class="inline">
+				<% if(shelter.dogs.length === 0){ %>
+					 (We currently have no dogs)
+				<% } %>
+			</p>
 			<a class="btn btn-primary pull-right" href="/shelters/<%= shelter._id %>/dogs">View All Dogs</a>
 		</div>
-		
+
 		<!-- shows only the 12 first/oldest dogs of a shelter, to view all of them, user has to click the 'View All Dogs' button -->
 		<% for(var i = 0; i < shelter.dogs.slice(0,12).length; i++){ %>
 		<div class="col-md-2 col-sm-4">
@@ -46,50 +51,48 @@
 					<p><%= shelter.dogs[i].breed %>, <%= shelter.dogs[i].age %></p>
 					<a class="btn btn-primary btn-sm" href="/shelters/<%= shelter._id %>/dogs/<%= shelter.dogs[i]._id %>">See More</a>
 				</div>
-				
+
 			</div>
 		</div>
 		<% } %>
-		
 	</div>
 	
 	<!-- REVIEWS SECTION -->
-	<div class="showThumbnail row">
-		<div class="block margin">
-			<h3 class="inline"><%= shelter.name %>'s Reviews</h3> <em>(total reviews: <%= shelter.reviews.length %>)</em>
-			<a class="btn btn-warning btn-sm pull-right" href="/shelters/<%= shelter._id %>/reviews">View all reviews</a>
-			<% if(currentUser && currentUser.role === "user"){ %>
-				<a class="btn btn-primary btn-sm pull-right" href="/shelters/<%= shelter._id %>/reviews/new">Add New Review</a>
+		<div class="showThumbnail row">
+			<div class="block margin">
+				<h3 class="inline"><%= shelter.name %>'s Reviews</h3> <em>(total reviews: <%= shelter.reviews.length %>)</em>
+				<a class="btn btn-warning btn-sm pull-right" href="/shelters/<%= shelter._id %>/reviews">View all reviews</a>
+				<% if(currentUser && currentUser.role === "user"){ %>
+					<a class="btn btn-primary btn-sm pull-right" href="/shelters/<%= shelter._id %>/reviews/new">Add New Review</a>
+				<% } %>
+			</div>
+
+			<!-- Show the 4 oldest reviews -->
+			<!-- eventually it will be the 4 most recent reviews -->
+			<% for(var i = 0; i < shelter.reviews.slice(0,4).length; i++){ %>
+				<div class="margin">
+					<div>
+						<h4 class="inline">
+							<%= shelter.reviews[i].author.username %> - <span class="fa fa-star checked"></span>
+					<span class="fa fa-star <% if (shelter.reviews[i].rating > 1.5) { %> checked <% } %>"></span>
+					<span class="fa fa-star <% if (shelter.reviews[i].rating > 2.5) { %> checked <% } %>"></span>
+					<span class="fa fa-star <% if (shelter.reviews[i].rating > 3.5) { %> checked <% } %>"></span>
+					<span class="fa fa-star <% if (shelter.reviews[i].rating > 4.5) { %> checked <% } %>"></span>
+						</h4>
+
+						<% if(currentUser && shelter.reviews[i].author.id.equals(currentUser._id)){ %>
+							<form class="inline" action="/shelters/<%= shelter._id %>/reviews/<%= shelter.reviews[i]._id %>/delete" method="POST">
+								<button class="pull-right btn btn-danger btn-xs">Delete</button>
+							</form>
+
+							<a href="/shelters/<%= shelter._id %>/reviews/<%= shelter.reviews[i]._id %>/edit" class="pull-right btn btn-warning btn-xs">Edit</a>
+						<% } %>
+
+					</div>
+					<p><%= shelter.reviews[i].text %></p>
+				</div>
 			<% } %>
 		</div>
-
-		<!-- Show the 4 oldest reviews -->
-		<!-- eventually it will be the 4 most recent reviews -->
-		<% for(var i = 0; i < shelter.reviews.slice(0,4).length; i++){ %>
-			<div class="margin">
-				<div>
-					<h4 class="inline">
-						<%= shelter.reviews[i].author.username %> - <span class="fa fa-star checked"></span>
-        	    <span class="fa fa-star <% if (shelter.reviews[i].rating > 1.5) { %> checked <% } %>"></span>
-        	    <span class="fa fa-star <% if (shelter.reviews[i].rating > 2.5) { %> checked <% } %>"></span>
-        	    <span class="fa fa-star <% if (shelter.reviews[i].rating > 3.5) { %> checked <% } %>"></span>
-        	    <span class="fa fa-star <% if (shelter.reviews[i].rating > 4.5) { %> checked <% } %>"></span>
-					</h4>
-					
-					<% if(currentUser && shelter.reviews[i].author.id.equals(currentUser._id)){ %>
-						<form class="inline" action="/shelters/<%= shelter._id %>/reviews/<%= shelter.reviews[i]._id %>/delete" method="POST">
-							<button class="pull-right btn btn-danger btn-xs">Delete</button>
-						</form>
-
-						<a href="/shelters/<%= shelter._id %>/reviews/<%= shelter.reviews[i]._id %>/edit" class="pull-right btn btn-warning btn-xs">Edit</a>
-					<% } %>
-					
-				</div>
-				<p><%= shelter.reviews[i].text %></p>
-			</div>
-		<% } %>
-	</div>
-	
 </div>
 
 

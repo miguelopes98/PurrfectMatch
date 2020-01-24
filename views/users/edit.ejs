@@ -6,6 +6,7 @@
 	
 	<div class="container" id="formCenter">
 
+	<% if(user.role === "user"){ %>
 		<form action="/users/<%= user._id %>" method="POST">
 			<div class="form-group">
 				<label for="user[firstName]">First Name</label>
@@ -30,7 +31,44 @@
 
 			<button class="full btn btn-success">Submit</button>
 		</form>
-	
+	<% } else { %>
+		<form action="/users/<%= user._id %>" method="POST">
+			<div class="form-group">
+				<label for="user[name]">Name</label>
+				<input class="form-control" type="text" value="<%= user.name %>" name="user[firstName]">
+			</div>
+			<div class="form-group">
+				<label for="user[avatar]">Image Url</label>
+				<input class="form-control" type="text" value="<%= user.avatar %>" name="user[avatar]">
+			</div>
+			<div class="form-group">
+				<label for="user[address]">Address</label>
+				<input class="form-control" type="text" name="user[address]" value="<%= user.address %>">
+			</div>
+			<div class="form-group">
+				<label for="user[description]">Tell us a bit about your Shelter</label>
+				<textarea class="form-control" type="text" name="user[description]"><%= user.description %></textarea>
+			</div>
+			<div class="form-group">
+				<label for="user[phoneNumber]">Phone Number</label>
+				<input class="form-control" type="text" value="<%= user.phoneNumber %>" name="user[phoneNumber]">
+			</div>
+			<div class="form-group">
+				<label for="user[email]">Email</label>
+				<input class="form-control" type="email" value="<%= user.email %>" name="user[email]">
+			</div>
+			<div class="form-group">
+				<label for="user[schedule]">Schedule</label>
+				<input class="form-control" type="text" value="<%= user.schedule %>" name="user[schedule]">
+			</div>
+			<div class="form-group">
+				<label for="user[websiteUrl]">Website Url</label>
+				<input class="form-control" type="text" value="<%= user.websiteUrl %>" name="user[websiteUrl]">
+			</div>
+
+			<button class="full btn btn-success">Submit</button>
+		</form>
+	<% } %>
 	</div>
 </div>
 

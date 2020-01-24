@@ -81,7 +81,13 @@ router.post("/:id", middleware.isLoggedIn, middleware.checkShelterOwnership, fun
 			console.log(err);
 			return res.redirect("back");
 		}
-		res.redirect("/shelters/" + req.params.id);
+		User.findByIdAndUpdate(updatedShelter.author.id, req.body.shelter, function(err, updatedUser){
+			if(err){
+				console.log(err);
+				return res.redirect("back");
+			}
+			return res.redirect("/shelters/" + req.params.id);
+		});
 	});
 });
 
@@ -90,9 +96,53 @@ router.post("/:id", middleware.isLoggedIn, middleware.checkShelterOwnership, fun
 //needs a isloggedIn and a checkShelterOwnership middleware
 router.post("/:id/delete", middleware.isLoggedIn, middleware.checkShelterOwnership, function(req, res){
 	//gotta delete user account, respective shelter, associated dogs, associated comments to dogs, associated reviews to shelter and cloudinary images
-	res.redirect("/shelters/");
+	Shelter.findByIdAndRemove(req.params.id).populate("dogs").exec(function(err, foundShelter){
+		if(err){
+			console.log(err);
+			return res.redirect("back");
+		}
+		else{
+			Dog.find({"_id": {$in: foundShelter.dogs}}, function(err, allDogs){
+				if(err){
+					console.log(err);
+					return res.redirect("back");
+				}
+				for(var i = 0; i < allDogs.length; i++){
+					Comment.remove({"_id": {$in: allDogs[i].comments}}, function(err){
+						if(err){
+							console.log(err);
+							return res.redirect("back");
+						}
+
+						Review.remove({"_id": {$in: foundShelter.reviews}}, function (err) {
+							if(err){
+								console.log(err);
+								return res.redirect("back");
+							}
+							else{
+								Dog.remove({"_id": {$in: foundShelter.dogs}}, function(err){
+									if(err){
+										console.log(err);
+										return res.redirect("back");
+									}
+									else{
+										User.remove({"_id": {$in: foundShelter.author.id}}, function(err){
+											if(err){
+												console.log(err);
+												return res.redirect("back");
+											}
+											foundShelter.remove();
+											return res.redirect("/shelters");
+										});
+									}
+								});
+							}
+						});
+					});
+				}
+			});
+		}
+	});
 });
-
-
 
 module.exports = router;
