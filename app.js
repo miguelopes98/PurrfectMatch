@@ -9,6 +9,7 @@ var express = require("express"),
 	Dog = require("./models/dog.js"),
 	Comment = require("./models/comment.js"),
 	Review = require("./models/reviews.js"),
+	Message = require("./models/message.js"),
 	User = require("./models/user.js");
 
 mongoose.connect("mongodb://localhost:27017/purrfect_match", {useNewUrlParser: true, useUnifiedTopology:true});
@@ -47,6 +48,7 @@ var indexRoutes = require("./routes/index.js"),
 	dogsRoutes = require("./routes/dogs.js"),
 	reviewRoutes = require("./routes/reviews.js"),
 	userRoutes = require("./routes/users.js"),
+	messageRoutes = require("./routes/messages.js"),
 	commentRoutes = require("./routes/comments.js");
 
 
@@ -60,5 +62,6 @@ app.use("/", dogsRoutes); //routes related to the comment model, I can't do ("/d
 app.use("/shelters/:id/dogs/:dogId/comments", commentRoutes); //routes related with the comment model
 app.use("/shelters/:id/reviews", reviewRoutes); //routes related to the review model
 app.use("/users", userRoutes); //routes related to the user model
+app.use("/users/:userId/messages", messageRoutes); //routes related to the message model
 
 app.listen(process.env.PORT || 3000);

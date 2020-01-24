@@ -182,7 +182,7 @@ middleware.userOwnership = function(req, res, next){
 	
 	else{
 		console.log("you need to be logged in for that");
-		return res.redirect("back");
+		return res.redirect("/login");
 	}
 }
 

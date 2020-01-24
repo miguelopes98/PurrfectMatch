@@ -3,14 +3,19 @@
 <div class="container-fluid">
 
 	<div class="thumbnail">
-		<% if(user.avatar ==! ""){ %>
+		<% if(user.avatar !== ""){ %>
 			<img src="<%= user.avatar %>">
 		<% } else{ %>
 			<img src="https://cdn.icon-icons.com/icons2/494/PNG/512/user_icon-icons.com_48201.png">
 		<% } %>
 			
 		<div class="caption">
-			<h3><%= user.username %></h3>
+			<h3 class="inline"><%= user.username %></h3>
+			<% if(currentUser && user._id.equals(currentUser._id)){ %>
+				<% if(currentUser.role === "user") { %>
+					<a href="/users/<%= user._id %>/messages" class="btn btn-lg btn-primary pull-right">See Messages</a>
+				<% } %>
+			<% } %>
 			<p><strong>Name: </strong><%= user.firstName %> <%= user.lastName %></p>
 			<p><strong>What you need to know about <%= user.username %>: </strong><%= user.description %></p>
 			<p><strong>Contacts: </strong><%= user.email %></p>
@@ -18,7 +23,7 @@
 		
 		<% if(currentUser && currentUser.role === "user"){ %>
 			<% if(!(user._id.equals(currentUser._id))){ %>
-				<a class="btn btn-primary btn-lg" href="textuser">Send a message to <%= currentUser.username %></a>
+				<a class="btn btn-primary btn-lg" href="/messages/<%= user._id %>">Send a message to <%= user.username %></a>
 			<% } %>
 		<% } %>
 		

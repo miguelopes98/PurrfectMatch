@@ -116,6 +116,14 @@ router.post("/shelters/:id/dogs/:dogId", middleware.isLoggedIn, middleware.check
 
 //DESTROY ROUTE - delete a dog from a shelter
 router.post("/shelters/:id/dogs/:dogId/delete", middleware.isLoggedIn, middleware.checkDogOwnership, function(req, res){
+	//we use async so that the dog is only removed once all the likes and comments are removed, async only allows a function to run after everything inside is ran basically
+	Dog.findByIdAndRemove(req.params.dogId, async function(err, dog){
+		if(err){
+			console.log(err);
+			return res.redirect("back");
+		}
+		
+	})
 	res.redirect("/shelters/" + req.params.id + "/dogs");
 });
 
