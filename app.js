@@ -3,6 +3,7 @@ var express = require("express"),
 	mongoose = require('mongoose'),
 	passport = require("passport"),
 	bodyParser = require("body-parser"),
+	flash = require("connect-flash"),
 	LocalStrategy = require("passport-local"),
 	passportLocalMongoose = require("passport-local-mongoose"),
 	Shelter = require("./models/shelter.js"),
@@ -18,6 +19,11 @@ app.use(bodyParser.urlencoded({extended:true}));
 //
 app.set("view engine", ".ejs");
 app.use(express.static("public"));
+
+//setting up flash messages (still a bit of set up bellow)
+app.use(flash());
+//moment, so we can delay the time a user has to wait if fail to login and such
+app.locals.moment = require("moment");
 
 //passport (authentication package) set up
 app.use(require("express-session")({
@@ -35,10 +41,11 @@ passport.deserializeUser(User.deserializeUser());
 //PASSING THE USER INFO TO ALL ROUTES
 //all routes run this middleware, that says in the respective templates that currentUser = req.user
 //we refer to the user as req.user in backEnd and currentUser in the frontEnd templates
+//setting up what the message of req.flash is
 app.use(function(req, res, next){
 	res.locals.currentUser = req.user;
-	//res.locals.error = req.flash("error");
-	//res.locals.success = req.flash("success");
+	res.locals.error = req.flash("error");
+	res.locals.success = req.flash("success");
 	next();
 })
 

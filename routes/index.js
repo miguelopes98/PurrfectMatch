@@ -88,11 +88,31 @@ router.get("/login", function(req, res){
 	res.render("login.ejs");
 });
 
-//handling login logic
+/*//handling login logic
 router.post("/login", passport.authenticate("local", {
 		successRedirect: "/shelters",
 		failureRedirect: "/login"
 	}), function(req, res){
+});*/
+
+//handling login logic
+router.post("/login", 
+	middleware.userBruteforce.getMiddleware({
+		key: function(req, res, next) {
+			// prevent too many attempts for the same username
+			next(req.body.username);
+		}
+    }), 
+	passport.authenticate("local",
+	{
+		failureRedirect: "/login",
+		successFlash: "You have successfully logged in.",
+		failureFlash: true
+	}), 
+	function(req, res){
+		//resets the time a user is blocked from trying if he manages to login before failing again
+		req.brute.reset(function(){});
+		res.redirect("/shelters");
 });
 
 //logout route

@@ -4,8 +4,45 @@ var Shelter = require("../models/shelter.js"),
 	Comment = require("../models/comment.js"),
 	Review = require("../models/reviews.js");
 
+//EXPRESS BRUTE SET UP
+const ExpressBrute = require("express-brute");
+const MongooseStore = require("express-brute-mongoose");
+const BruteForceSchema = require("express-brute-mongoose/dist/schema");
+const mongoose = require("mongoose");
+var moment = require('moment');
+
+var model = mongoose.model("bruteforce", new mongoose.Schema(BruteForceSchema));
+var store = new MongooseStore(model);
+
 //we're creating a middleware object to add a bunch of methods and export that object to the routes files
 var middleware = {};
+
+//WRITING THE BRUCE FORCE PREVENTION MIDDLEWARE...
+var failCallback = function (req, res, next, nextValidRequestDate) {
+    req.flash('error', "You've made too many failed attempts in a short period of time, please try again " + moment(nextValidRequestDate).fromNow());
+    res.redirect('/login'); // brute force protection triggered, send them back to the login page
+};
+
+var handleStoreError = function (error) {
+    log.error(error); // log this error so we can figure out what went wrong
+    // cause node to exit, hopefully restarting the process fixes the problem
+    throw {
+        message: error.message,
+        parent: error.parent
+    };
+}
+
+// Start slowing requests after 5 failed attempts to do something for the same user
+middleware.userBruteforce = new ExpressBrute(store, {
+    freeRetries: 3,
+    minWait: 5*60*1000, // 5 minutes
+    maxWait: 60*60*1000, // 1 hour,
+	lifetime: 24*60*60, //1 day
+    failCallback: failCallback,
+    handleStoreError: handleStoreError,
+	attachResetToRequest: true
+});
+middleware.bruteforce = new ExpressBrute(store);
 
 //isLoggedIn middleware - checks if a user is logged in
 middleware.isLoggedIn = function(req, res, next){
