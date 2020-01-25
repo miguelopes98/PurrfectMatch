@@ -25,6 +25,8 @@ module.exports = function(schema) {
 			]
 		}
 	],
-	role: String //either user or shelterUser, we will use this to allow different things considering the role of the current logged in account
+	role: String, //either user or shelterUser, we will use this to allow different things considering the role of the current logged in account
+	resetPasswordToken: String,
+	resetPasswordExpires: Date
    });
 }
