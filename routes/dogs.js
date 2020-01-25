@@ -15,6 +15,7 @@ router.get("/dogs", function(req,res){
 	Shelter.find({}).populate("dogs").exec(function(err, allShelters){
 		if(err){
 			console.log(err);
+			req.flash("error", "Shelter/shelters not found.");
 			return res.redirect("back");
 		}
 		res.render("dogs/generalIndex.ejs", {shelters: allShelters});
@@ -26,6 +27,7 @@ router.get("/shelters/:id/dogs", function(req, res){
 	Shelter.findById(req.params.id).populate("dogs").exec(function(err, foundShelter){
 		if(err){
 			console.log(err);
+			req.flash("error", "Shelter not found.");
 			return res.redirect("back");
 		}
 		res.render("dogs/index.ejs", {shelter: foundShelter});
@@ -37,6 +39,7 @@ router.get("/shelters/:id/dogs/new", middleware.isLoggedIn, middleware.checkShel
 	Shelter.findById(req.params.id, function(err, foundShelter){
 		if(err){
 			console.log(err);
+			req.flash("error", "Shelter not found.");
 			return res.redirect("back");
 		}
 		res.render("dogs/new.ejs", {shelter: foundShelter});
@@ -48,11 +51,13 @@ router.post("/shelters/:id/dogs", middleware.isLoggedIn, middleware.checkShelter
 	Shelter.findById(req.params.id, function(err, foundShelter){
 		if(err){
 			console.log(err);
+			req.flash("error", "Shelter not found.");
 			return res.redirect("back");
 		}
 		Dog.create(req.body.dog, function(err, newDog){
 			if(err){
 				console.log(err);
+				req.flash("error", "Dog wasn't created.");
 				return res.redirect("back");
 			}
 			newDog.author.id = req.user._id;
@@ -60,6 +65,7 @@ router.post("/shelters/:id/dogs", middleware.isLoggedIn, middleware.checkShelter
 			newDog.save();
 			foundShelter.dogs.push(newDog);
 			foundShelter.save();
+			req.flash("success", "Dog added successfully.");
 			res.redirect("/shelters/" + req.params.id);;
 		});
 	});
@@ -70,11 +76,13 @@ router.get("/shelters/:id/dogs/:dogId", function(req, res){
 	Shelter.findById(req.params.id, function(err, foundShelter){
 		if(err){
 			console.log(err);
+			req.flash("error", "Shelter not found.");
 			return res.redirect("back");
 		}
 		Dog.findById(req.params.dogId).populate("comments likes").exec(function(err, foundDog){
 			if(err){
 				console.log(err);
+				req.flash("error", "Dog not found.");
 				return res.redirect("back");
 			}
 			
@@ -96,6 +104,7 @@ router.get("/shelters/:id/dogs/:dogId/edit", middleware.isLoggedIn, middleware.c
 	Dog.findById(req.params.dogId, function(err, foundDog){
 		if(err){
 			console.log(err);
+			req.flash("error", "Dog not found.");
 			return res.redirect("back");
 		}
 		res.render("dogs/edit.ejs", {dog: foundDog, shelterId: req.params.id});
@@ -107,6 +116,7 @@ router.post("/shelters/:id/dogs/:dogId", middleware.isLoggedIn, middleware.check
 	Dog.findByIdAndUpdate(req.params.dogId, req.body.dog, function(err, foundDog){
 		if(err){
 			console.log(err);
+			req.flash("error", "Dog not found.");
 			return res.redirect("back");
 		}
 		res.redirect("/shelters/" + req.params.id + "/dogs/" + req.params.dogId);
@@ -120,6 +130,7 @@ router.post("/shelters/:id/dogs/:dogId/delete", middleware.isLoggedIn, middlewar
 	Dog.findByIdAndRemove(req.params.dogId, async function(err, foundDog){
 		if(err){
 			console.log(err);
+			req.flash("error", "Dog not found.");
 			return res.redirect("back");
 		}
 		else{
@@ -127,9 +138,11 @@ router.post("/shelters/:id/dogs/:dogId/delete", middleware.isLoggedIn, middlewar
 			Comment.remove({"_id": {$in: foundDog.comments}}, function (err) {
 				if(err){
 					console.log(err);
+					req.flash("error", "Sorry! Something went wrong.");
 					return res.redirect("back");
 				}
 				foundDog.remove();
+				req.flash("success", "Dog removed successfully.");
 				return res.redirect("/shelters/" + req.params.id);
 			});
 		}
@@ -141,6 +154,7 @@ router.post("/shelters/:id/dogs/:dogId/like", middleware.isLoggedIn, middleware.
 	Dog.findById(req.params.dogId, function(err, foundDog){
 		if(err){
 			console.log(err);
+			req.flash("error", "Dog not found.");
 			return res.redirect("back");
 		}
 		
@@ -161,6 +175,7 @@ router.post("/shelters/:id/dogs/:dogId/like", middleware.isLoggedIn, middleware.
 		foundDog.save(function(err){
 			if(err){
 				console.log(err);
+				req.flash("error", "Sorry! Something went wrong.");
 				return res.redirect("back");
 			}
 			return res.redirect("/shelters/" + req.params.id + "/dogs/" + req.params.dogId);

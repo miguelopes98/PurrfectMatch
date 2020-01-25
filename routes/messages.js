@@ -19,6 +19,7 @@ router.get("/", middleware.userOwnership, function(req, res){
 	User.findById(req.user._id).populate("conversations.messages conversations.person").exec(function(err, foundUser){
 		if(err){
 			console.log(err);
+			req.flash("error", "Sorry! Something went wrong.");
 			return res.redirect("back");
 		}
 		return res.render("messages/index.ejs", {user: foundUser});
@@ -30,11 +31,13 @@ router.get("/:personId", middleware.userOwnership, function(req, res){
 	User.findById(req.user._id).populate("conversations.person conversations.messages").exec(function(err, foundUser){
 		if(err){
 			console.log(err);
+			req.flash("error", "Sorry! Something went wrong.");
 			return res.redirect("back");
 		}
 		User.findById(req.params.personId).populate("conversations.person conversations.messages").exec(function(err, foundRecipient){
 			if(err){
 				console.log(err);
+				req.flash("error", "The person you were trying to reach wasn't found.");
 				return res.redirect("back");
 			}
 			var index;
@@ -56,17 +59,20 @@ router.post("/:personId", middleware.userOwnership, function(req, res){
 	User.findById(req.user._id, function(err, foundUser){
 		if(err){
 			console.log(err);
+			req.flash("error", "Sorry! Something went wrong.");
 			return res.redirect("back");
 		}
 		User.findById(req.params.personId, function(err, foundRecipient){
 			if(err){
 				console.log(err);
+				req.flash("error", "The person you were trying to reach wasn't found.");
 				return res.redirect("back");
 			}
 			
 			Message.create(req.body.message, function(err, savedMessage){
 				if(err){
 					console.log(err);
+					req.flash("error", "Message not sent.");
 					return res.redirect("back");
 				}
 				savedMessage.sender.id = req.user._id;
@@ -99,6 +105,7 @@ router.post("/:personId", middleware.userOwnership, function(req, res){
 
 					foundRecipient.conversations.push(objRecipient);
 					foundRecipient.save();
+					req.flash("success", "Message sent.");
 					return res.redirect("/users/" + req.params.userId + "/messages/" + req.params.personId);
 				}
 				//if they had a conversation before
@@ -107,6 +114,7 @@ router.post("/:personId", middleware.userOwnership, function(req, res){
 					foundUser.conversations[index].messages.push(savedMessage._id);
 					foundUser.save();
 					foundRecipient.save();
+					req.flash("success", "Message sent.");
 					return res.redirect("/users/" + req.params.userId + "/messages/" + req.params.personId);
 				}
 				

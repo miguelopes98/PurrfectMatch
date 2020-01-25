@@ -14,6 +14,7 @@ router.get("/", function(req, res){
 	Dog.findById(req.params.dogId).populate("comments").exec(function(err, foundDog){
 		if(err){
 			console.log(err);
+			req.flash("error", "Comments not found.");
 			return res.redirect("back");
 		}
 		res.render("comments/index.ejs", {shelterId: req.params.id, dog: foundDog});
@@ -25,6 +26,7 @@ router.get("/new", middleware.isLoggedIn, middleware.userIsUser, function(req, r
 	Dog.findById(req.params.dogId, function(err, foundDog){
 		if(err){
 			console.log(err);
+			req.flash("error", "Sorry! Something went wrong.");
 			return res.redirect("back");
 		}
 		res.render("comments/new.ejs", {shelterId: req.params.id, dog: foundDog});
@@ -36,11 +38,13 @@ router.post("/", middleware.isLoggedIn, middleware.userIsUser, function(req, res
 	Dog.findById(req.params.dogId, function(err, foundDog){
 		if(err){
 			console.log(err);
+			req.flash("error", "Dog not found.");
 			return res.redirect("back");
 		}
 		Comment.create(req.body.comment, function(err, newComment){
 			if(err){
 				console.log(err);
+				req.flash("error", "Wasn't able to create comment.");
 				return res.redirect("back");
 			}
 			//adding author to created comment
@@ -50,6 +54,7 @@ router.post("/", middleware.isLoggedIn, middleware.userIsUser, function(req, res
 			//adding comment to dog
 			foundDog.comments.push(newComment);
 			foundDog.save();
+			req.flash("success", "You have successfully commented this dog.");
 			res.redirect("/shelters/" + req.params.id + "/dogs/" + req.params.dogId);
 		})
 	});
@@ -60,6 +65,7 @@ router.get("/:commentId/edit", middleware.isLoggedIn, middleware.userIsUser, mid
 	Comment.findById(req.params.commentId, function(err, foundComment){
 		if(err){
 			console.log(err);
+			req.flash("error", "Comment not found.");
 			return res.redirect("back");
 		}
 		res.render("comments/edit.ejs", {shelterId: req.params.id, dogId: req.params.dogId, comment: foundComment});
@@ -71,8 +77,10 @@ router.post("/:commentId", middleware.isLoggedIn, middleware.userIsUser, middlew
 	Comment.findByIdAndUpdate(req.params.commentId, req.body.comment, function(err, comment){
 		if(err){
 			console.log(err);
+			req.flash("error", "Sorry! Something went wrong.");
 			return res.redirect("back");
 		}
+		req.flash("success", "Comment wasn't updated.");
 		res.redirect("/shelters/" + req.params.id + "/dogs/" + req.params.dogId);
 	});
 });
@@ -83,14 +91,17 @@ router.post("/:commentId/delete", middleware.isLoggedIn, middleware.userIsUser, 
 	Comment.findByIdAndRemove(req.params.commentId, function(err, foundComment){
 		if(err){
 			console.log(err);
+			req.flash("error", "Comment not found.");
 			return res.redirect("back");
 		}
 		//removing deleted comment id from dog.comments array
 		Dog.findByIdAndUpdate(req.params.dogId, {$pull: {comments: req.params.commentId}}, {new: true}).populate("comments").exec(function(err, udpatedDog){
 			if(err){
 				console.log(err);
+				req.flash("error", "Dog not found.");
 				return res.redirect("back");
 			}
+			req.flash("success", "Comment deleted.");
 			res.redirect("/shelters/" + req.params.id + "/dogs/" + req.params.dogId);
 		});
 	});

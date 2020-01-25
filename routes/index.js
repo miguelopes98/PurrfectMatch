@@ -38,11 +38,13 @@ router.post("/register/user", function(req, res){
 	});
 	User.register(newUser, req.body.password, function(err, user){
 		if(err){
-			console.log(err)
-			return res.redirect("/resgister/user");
+			console.log(err);
+			req.flash("error", err.message);
+			return res.redirect("back");
 		}
 		//if we successfully register the user, we log them in automatically and send them to /dogs
 		passport.authenticate("local")(req, res, function(){
+			req.flash("success", "Welcome to Purrfect Match " + user.username);
 			res.redirect("/dogs");
 		});
 	});
@@ -72,12 +74,14 @@ router.post("/register/shelter", function(req, res){
 	
 	User.register(newShelterUser, req.body.password, function(err, user){
 		if(err){
-			console.log(err)
+			console.log(err);
+			req.flash("error", err.message);
 			return res.redirect("/resgister/shelter");
 		}
 		//if we successfully register the shelter account, we log them in automatically, then we redirect them to create the respective shelter object and send a post request to /shelters so the shelter object is created with the information we already have
 		passport.authenticate("local")(req, res, function(){
 			// the first param is to send a post request instead of a get
+			req.flash("success", "Welcome to Purrfect Match " + user.username);
 			res.redirect(307, "/shelters");
 		});
 	});
@@ -87,13 +91,6 @@ router.post("/register/shelter", function(req, res){
 router.get("/login", function(req, res){
 	res.render("login.ejs");
 });
-
-/*//handling login logic
-router.post("/login", passport.authenticate("local", {
-		successRedirect: "/shelters",
-		failureRedirect: "/login"
-	}), function(req, res){
-});*/
 
 //handling login logic
 router.post("/login", 
@@ -118,6 +115,7 @@ router.post("/login",
 //logout route
 router.get("/logout", function(req, res){
 	req.logout();
+	req.flash("success", "You have successfully logged out.");
 	res.redirect("/");
 });
 

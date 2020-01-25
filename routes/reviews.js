@@ -17,6 +17,7 @@ router.get("/", function(req, res){
     }).exec(function(err, foundShelter){
 		if(err){
 			console.log(err);
+			req.flash("error", "Shelter not found.");
 			return res.redirect("back");
 		}
 		res.render("reviews/index.ejs", {shelter: foundShelter});
@@ -28,6 +29,7 @@ router.get("/new", middleware.isLoggedIn, middleware.checkReviewExistence, middl
 	Shelter.findById(req.params.id, function(err, foundShelter){
 		if(err){
 			console.log(err);
+			req.flash("error", "Shelter not found.");
 			return res.redirect("back");
 		}
 		res.render("reviews/new.ejs", {shelter: foundShelter});
@@ -40,9 +42,15 @@ router.post("/", middleware.isLoggedIn, middleware.checkReviewExistence, middlew
 	Shelter.findById(req.params.id).populate("reviews").exec(function(err,foundShelter){
 		if(err){
 			console.log(err);
+			req.flash("error", "Shelter not found.");
 			return res.redirect("back");
 		}
 		Review.create(req.body.review, function(err, newReview){
+			if(err){
+				console.log(err);
+				req.flash("error", "Wasn't able to create review.");
+				return res.redirect("back");
+			}
 			newReview.author.id = req.user._id;
 			newReview.author.username = req.user.username;
 			newReview.shelter = foundShelter._id;
@@ -50,6 +58,7 @@ router.post("/", middleware.isLoggedIn, middleware.checkReviewExistence, middlew
 			foundShelter.reviews.push(newReview);
 			foundShelter.rating = calculateAverage(foundShelter.reviews);
 			foundShelter.save();
+			req.flash("success", "Review added successfully.");
 			res.redirect("/shelters/" + req.params.id);
 		});
 	});
@@ -60,6 +69,7 @@ router.get("/:reviewId/edit", middleware.isLoggedIn, middleware.checkReviewOwner
 	Review.findById(req.params.reviewId, function(err, foundReview){
 		if(err){
 			console.log(err);
+			req.flash("error", "Review not found.");
 			return res.redirect("back");
 		}
 		res.render("reviews/edit.ejs", {review: foundReview, shelterId: req.params.id});
@@ -72,16 +82,19 @@ router.post("/:reviewId", middleware.isLoggedIn, middleware.checkReviewOwnership
 	Review.findByIdAndUpdate(req.params.reviewId, req.body.review, {new: true}, function(err, updatedReview){
 		if(err){
 			console.log(err);
+			req.flash("error", "Review not found.");
 			return res.redirect("back");
 		}
 		Shelter.findById(req.params.id).populate("reviews").exec(function(err, foundShelter){
 			if(err){
 				console.log(err);
+				req.flash("error", "Shelter not found.");
 				return res.redirect("back");
 			}
 			//updating shelter's reviews average rating
 			foundShelter.rating = calculateAverage(foundShelter.reviews);
 			foundShelter.save();
+			req.flash("error", "Review updated successfully.");
 			res.redirect("/shelters/" + req.params.id);
 		});
 	});
@@ -92,16 +105,19 @@ router.post("/:reviewId/delete", middleware.isLoggedIn, middleware.checkReviewOw
 	Review.findByIdAndRemove(req.params.reviewId, function(err, review){
 		if(err){
 			console.log(err);
+			req.flash("error", "Review not found.");
 			return res.redirect("back");
 		}
 		Shelter.findByIdAndUpdate(req.params.id, {$pull: {reviews: req.params.review_id}}, {new: true}).populate("reviews").exec(function(err, shelter){
 			if(err){
 				console.log(err);
+				req.flash("error", "Shelter not found.");
 				return res.redirect("back");
 			}
 			//updating shelter's reviews average rating
 			shelter.rating = calculateAverage(shelter.reviews);
 			shelter.save();
+			req.flash("error", "Review deleted successfully.");
 			res.redirect("back");
 		});
 	});

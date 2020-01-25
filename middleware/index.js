@@ -50,6 +50,7 @@ middleware.isLoggedIn = function(req, res, next){
 		return next();
 	}
 	console.log("you need to be logged in to do this");
+	req.flash("error", "You need to be logged in to do that.");
 	return res.redirect("/login");
 }
 
@@ -60,6 +61,7 @@ middleware.checkShelterOwnership = function(req, res, next){
 		Shelter.findById(req.params.id, function(err, foundShelter){
 			if(err){
 				console.log(err);
+				req.flash("error", "Shelter not found.");
 				return res.redirect("back");
 			}
 			//check if user is owner of shelter
@@ -68,12 +70,14 @@ middleware.checkShelterOwnership = function(req, res, next){
 			}
 			//if user isn't the author of this shelter
 			console.log("you need to be the owner of this shelter to do this");
+			req.flash("error", "You need to be the owner of this shelter to do that.");
 			return res.redirect("back");
 		});
 	}
 	else{
 		//if not logged in return to login
 		console.log("you need to be logged in to do this");
+		req.flash("error", "You need to be logged in to do that.");
 		return res.redirect("/login");
 	}
 }
@@ -85,6 +89,7 @@ middleware.checkCommentOwnership = function(req, res, next){
 		Comment.findById(req.params.commentId, function(err, foundComment){
 			if(err){
 				console.log(err);
+				req.flash("error", "Comment not found.");
 				return res.redirect("back");
 			}
 			//if logged in user is the owner of the comment
@@ -93,12 +98,14 @@ middleware.checkCommentOwnership = function(req, res, next){
 			}
 			//if user is not the owner of the owner of the comment
 			console.log("you need to be the owner of this comment to do that");
+			req.flash("error", "You need to be the author of that comment to do that.");
 			return res.redirect("back");
 		});
 	}
 	else{
 		//if not, redirect them to login
 		console.log("you need to be logged in to do this");
+		req.flash("error", "You need to be logged in to do that.");
 		return res.redirect("/login");
 	}
 }
@@ -110,6 +117,7 @@ middleware.checkReviewOwnership = function(req, res, next){
 		Review.findById(req.params.reviewId, function(err, foundReview){
 			if(err){
 				console.log(err);
+				req.flash("error", "Review not found.");
 				return res.redirect("back");
 			}
 			//if the user is the owner of the review
@@ -118,12 +126,14 @@ middleware.checkReviewOwnership = function(req, res, next){
 			}
 			//if the user isn't the owner of the review
 			console.log("you need to be the author of this review to do that");
+			req.flash("error", "You need to be the author of this review to do that.");
 			return res.redirect("back");
 		});
 	}
 	else{
 		//if the user isn't logged in, redirect him to login
 		console.log("you need to be logged in to do this");
+		req.flash("error", "You need to be logged in to do that.");
 		return res.redirect("/login");
 	}
 }
@@ -135,6 +145,7 @@ middleware.checkReviewExistence = function(req, res, next){
 		Shelter.findById(req.params.id).populate("reviews").exec(function(err, foundShelter){
 			if(err){
 				console.log(err);
+				req.flash("error", "Shelter not found.");
 				return res.redirect("back");
 			}
 			//we re going to save the review that the user has done previously in foundReview variable so we can pass it to the template
@@ -149,7 +160,7 @@ middleware.checkReviewExistence = function(req, res, next){
 			//if the user already reviewed
 			if(alreadyReviewed){
 				console.log("you already reviewed this shelter. you can only review each shelter once. do you want to change your review?");
-				
+				req.flash("error", "You already reviewed this shelter. You can only review each shelter once. Do you want to change your review?");
 				return res.render("reviews/editOrNot.ejs", {shelter: foundShelter, review: foundReview});
 			}
 			//if the user didn't reviewed this shelter yet
@@ -159,6 +170,7 @@ middleware.checkReviewExistence = function(req, res, next){
 	else{
 		//if the user isn't logged in
 		console.log("you need to be logged in to do that");
+		req.flash("error", "You need to be logged in to do that.");
 		return res.redirect("/login");
 	}
 }
@@ -171,6 +183,7 @@ middleware.checkDogOwnership = function(req, res, next){
 		Dog.findById(req.params.dogId, function(err, foundDog){
 			if(err){
 				console.log(err);
+				req.flash("error", "Dog not found.");
 				return res.redirect("back");
 			}
 			//if the user is the owner of this dog
@@ -179,12 +192,14 @@ middleware.checkDogOwnership = function(req, res, next){
 			}
 			//if the user isn't the owner of this dog
 			console.log("you need to be the author of this dog to do that");
+			req.flash("error", "You need to be the owner of this dog to do that.");
 			return res.redirect("back");
 		});
 	}
 	else{
 		//if the user isn't logged in
 		console.log("you need to be logged in to do that");
+		req.flash("error", "You need to be logged in to do that.");
 		return res.redirect("/login");
 	}
 }
@@ -198,14 +213,15 @@ middleware.userOwnership = function(req, res, next){
 			User.findById(req.params.userId, function(err, foundUser){
 				if(err){
 					console.log(err);
+					req.flash("error", "User account not found.");
 					return res.redirect("back");
 				}
 				if(foundUser._id.equals(req.user._id)){
-					console.log("user is owner");
 					return next();
 				}
 				else{
 					console.log("you need to be the owner of this user's account to do that");
+					req.flash("error", "You need to be the owner of this user's account to do that.");
 					return res.redirect("back");
 				}
 			});
@@ -213,12 +229,14 @@ middleware.userOwnership = function(req, res, next){
 		
 		else{
 			console.log("you need to be log in through a regular user account to do that");
+			req.flash("error", "You need to be logged in through a regular user account to do that.");
 			return res.redirect("/login");
 		}
 	}
 	
 	else{
 		console.log("you need to be logged in for that");
+		req.flash("error", "You need to be logged in for that.");
 		return res.redirect("/login");
 	}
 }
@@ -230,14 +248,15 @@ middleware.allUserOwnership = function(req, res, next){
 		User.findById(req.params.userId, function(err, foundUser){
 			if(err){
 				console.log(err);
+				req.flash("error", "User account not found.");
 				return res.redirect("back");
 			}
 			if(foundUser._id.equals(req.user._id)){
-				console.log("user is owner");
 				return next();
 			}
 			else{
 				console.log("you need to be the owner of this user's account to do that");
+				req.flash("error", "You need to be the owner of this user's account to do that.");
 				return res.redirect("back");
 			}
 		});
@@ -245,6 +264,7 @@ middleware.allUserOwnership = function(req, res, next){
 	
 	else{
 		console.log("you need to be logged in for that");
+		req.flash("error", "You need to be logged in to do that.");
 		return res.redirect("/login");
 	}
 }
@@ -259,10 +279,12 @@ middleware.userIsUser = function(req, res, next){
 		}
 		//if user is a shelterUser
 		console.log("you need to create a regular user account to do that");
+		req.flash("error", "You need to create a regular user account to do that.");
 		return res.redirect("back");
 	}
 	//if user isn't logged in, redirect him to login page
 	console.log("you need to be logged in to do that");
+	req.flash("error", "You need to be logged in to do that.");
 	return res.redirect("/login");
 }
 
@@ -276,10 +298,12 @@ middleware.shelterUser = function(req, res, next){
 		}
 		//if user is a regular user
 		console.log("you need to create a shelter account to do that");
+		req.flash("error", "You need to create a shelter account to do that.");
 		return res.redirect("back");
 	}
 	//if user isn't logged in, redirect him to login page
 	console.log("you need to be logged in to do that");
+	req.flash("error", "You need to be logged in to do that.");
 	return res.redirect("/login");
 }
 
