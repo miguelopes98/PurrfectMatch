@@ -10,7 +10,7 @@ var express = require("express"),
 	User = require("../models/user.js");
 
 
-//GENERAL INDEX ROUTE - shows every existing dog and fuzzy search
+/*//GENERAL INDEX ROUTE - shows every existing dog and fuzzy search
 router.get("/dogs", function(req,res){
 	Shelter.find({}).populate("dogs").exec(function(err, allShelters){
 		if(err){
@@ -20,17 +20,137 @@ router.get("/dogs", function(req,res){
 		}
 		res.render("dogs/generalIndex.ejs", {shelters: allShelters});
 	});
+});*/
+
+//GENERALINDEX - show every existing dog and fuzzy search
+router.get("/dogs", function(req, res){
+	var perPage = 8;
+    var pageQuery = parseInt(req.query.page);
+    var pageNumber = pageQuery ? pageQuery : 1;
+    var noMatch = null;
+    if(req.query.search) {
+        const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+        // Get the shelters that match the search from DB
+        Dog.find({breed: regex}).skip((perPage * pageNumber) - perPage).limit(perPage).populate("shelter").exec(function(err, allDogs){
+			if(err){
+				console.log(err);
+				req.flash("error", "Sorry! Something went wrong.");
+				return res.redirect("back");
+			}
+			Dog.count({breed: regex}).exec(function(err, count){
+				if(err){
+				   console.log(err);
+				   req.flash("error", "Dog/Dogs not found.");
+					return res.redirect("back");
+			   } else {
+					return res.render("dogs/generalIndex", {
+					dogs: allDogs,
+					current: pageNumber,
+					pages: Math.ceil(count / perPage),
+					noMatch: noMatch,
+					search: req.query.search
+					});
+			   }
+			});
+        });
+    } 
+	else
+	{
+        //Get all shelters from DB
+		//Shelter.find() vai correr e tudo o que encontrar vai guardar em allShelters
+		Dog.find({}).skip((perPage * pageNumber) - perPage).limit(perPage).populate("shelter").exec(function (err, allDogs) {
+			if(err){
+				console.log(err);
+				req.flash("error", "Sorry! Something went wrong.");
+				return res.redirect("back");
+			}
+			Dog.count().exec(function (err, count) {
+				if (err) {
+					console.log(err);
+					req.flash("error", "Dog/Dogs not found.");
+					return res.redirect("back");
+				} else {
+					console.log(allDogs[0]);
+					return res.render("dogs/generalIndex", {
+					dogs: allDogs,
+					current: pageNumber,
+					pages: Math.ceil(count / perPage),
+					noMatch: noMatch,
+					search: req.query.search
+					});
+				}
+			});
+		});
+    }
 });
 
 //INDEX ROUTE - shows every existing dog of a specific shelter
 router.get("/shelters/:id/dogs", function(req, res){
-	Shelter.findById(req.params.id).populate("dogs").exec(function(err, foundShelter){
+	Shelter.findById(req.params.id).exec(function(err, foundShelter){
 		if(err){
 			console.log(err);
 			req.flash("error", "Shelter not found.");
 			return res.redirect("back");
 		}
-		res.render("dogs/index.ejs", {shelter: foundShelter});
+		var perPage = 8;
+		var pageQuery = parseInt(req.query.page);
+		var pageNumber = pageQuery ? pageQuery : 1;
+		var noMatch = null;
+		if(req.query.search) {
+			const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+			// Get the shelters that match the search from DB
+			Dog.find({breed: regex, "_id": {$in: foundShelter.dogs}}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function(err, allDogs){
+				if(err){
+					console.log(err);
+					req.flash("error", "Sorry! Something went wrong.");
+					return res.redirect("back");
+				}
+				Dog.count({breed: regex}).exec(function(err, count){
+					if(err){
+					   console.log(err);
+					   req.flash("error", "Dog/Dogs not found.");
+						return res.redirect("back");
+				   } else {
+						return res.render("dogs/index", {
+						dogs: allDogs,
+						shelter: foundShelter,
+						current: pageNumber,
+						pages: Math.ceil(count / perPage),
+						noMatch: noMatch,
+						search: req.query.search
+						});
+				   }
+				});
+			});
+		} 
+		else
+		{
+			//Get all shelters from DB
+			//Shelter.find() vai correr e tudo o que encontrar vai guardar em allShelters
+			Dog.find({"_id": {$in: foundShelter.dogs}}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allDogs) {
+				if(err){
+					console.log(err);
+					req.flash("error", "Sorry! Something went wrong.");
+					return res.redirect("back");
+				}
+				Dog.count().exec(function (err, count) {
+					if (err) {
+						console.log(err);
+						req.flash("error", "Dog/Dogs not found.");
+						return res.redirect("back");
+					} else {
+						return res.render("dogs/index", {
+						dogs: allDogs,
+						shelter: foundShelter,
+						current: pageNumber,
+						pages: Math.ceil(count / perPage),
+						noMatch: noMatch,
+						search: req.query.search
+						});
+					}
+				});
+			});
+		}
 	});
 });
 
@@ -62,6 +182,7 @@ router.post("/shelters/:id/dogs", middleware.isLoggedIn, middleware.checkShelter
 			}
 			newDog.author.id = req.user._id;
 			newDog.author.username = req.user.username;
+			newDog.shelter = req.params.id;
 			newDog.save();
 			foundShelter.dogs.push(newDog);
 			foundShelter.save();
@@ -183,6 +304,10 @@ router.post("/shelters/:id/dogs/:dogId/like", middleware.isLoggedIn, middleware.
 	});
 });
 
+//function that we're going to call on the index route to do the fuzzy search
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
 
 
 module.exports = router;

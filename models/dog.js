@@ -8,6 +8,10 @@ var dogSchema = new mongoose.Schema({
 		},
 		username: String
 	},
+	shelter: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref:"Shelter"
+	},
 	name: String,
 	breed: String,
 	age: String,

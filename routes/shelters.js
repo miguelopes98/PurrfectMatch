@@ -9,17 +9,57 @@ var express = require("express"),
 	Review = require("../models/reviews.js"),
 	User = require("../models/user.js");
 
-
-//INDEX ROUTE - shows all existing shelters and fuzzy search
-router.get("/", function(req,res){
-	Shelter.find({}, function(err, allShelters){
-		if(err){
-			console.log(err);
-			req.flash("error", "Shelter/shelters not found.");
-			return res.redirect("back");
-		}
-		res.render("../views/shelters/index.ejs", {shelters: allShelters});
-	});
+//INDEX - show all shelters
+router.get("/", function(req, res){
+	var perPage = 8;
+    var pageQuery = parseInt(req.query.page);
+    var pageNumber = pageQuery ? pageQuery : 1;
+    var noMatch = null;
+    if(req.query.search) {
+        const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+        // Get the shelters that match the search from DB
+        Shelter.find({name: regex}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function(err, allShelters){
+			Shelter.count({name: regex}).exec(function(err, count){
+				if(err){
+				   console.log(err);
+				   req.flash("error", "Shelter/Shelters not found.");
+			   } else {
+				  if(allShelters.length < 1) {
+					  noMatch = "No shelters match that search, please try again.";
+				  }
+				  res.render("shelters/index",{
+					shelters:allShelters,
+					noMatch: noMatch,
+					current: pageNumber,
+					pages: Math.ceil(count / perPage),
+					search: req.query.search
+				  });
+			   }
+			}) 
+        });
+    } 
+	else
+	{
+        //Get all shelters from DB
+		//Shelter.find() vai correr e tudo o que encontrar vai guardar em allShelters
+		Shelter.find({}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function (err, allShelters) {
+			Shelter.count().exec(function (err, count) {
+				if (err) {
+					console.log(err);
+					req.flash("error", "Shelter/Shelters not found.");
+					res.redirect("back");
+				} else {
+					res.render("shelters/index", {
+						shelters: allShelters,
+						current: pageNumber,
+						pages: Math.ceil(count / perPage),
+						noMatch: noMatch,
+						search: req.query.search
+					});
+				}
+			});
+		});
+    }
 });
 
 //NEW ROUTE - we have none, when a shelter's account is created, we ask for the informations of the shelter and the shelter gets created automatically and added to the shelters index page. the form that asks for the info to create de account sends a post request to /shelters
@@ -29,10 +69,6 @@ router.get("/", function(req,res){
 router.post("/", middleware.isLoggedIn, middleware.shelterUser, function(req, res){
 	//once the user creates the shelter account with all the information necessary, we redirect as a post to this route so we can create the respective shelter object automatically
 	var newShelter = new Shelter({
-			author: {
-				id: req.user._id,
-				username: req.user.username
-			},
 			name: req.user.name,
 			address: req.user.address,
 			avatar: req.user.avatar,
@@ -48,6 +84,9 @@ router.post("/", middleware.isLoggedIn, middleware.shelterUser, function(req, re
 			req.flash("error", "Wasn't able to create shelter.");
 			return res.redirect("/resgister/shelter");
 		}
+		shelter.author.id = req.user._id;
+		shelter.author.username = req.user.username;
+		shelter.save();
 		req.flash("success", "Account and shelter created successfully.");
 		res.redirect("/shelters/" + shelter.id);
 	});
@@ -145,9 +184,6 @@ router.post("/:id/delete", middleware.isLoggedIn, middleware.checkShelterOwnersh
 												req.flash("error", "Wasn't able to delete your account.");
 												return res.redirect("back");
 											}
-											foundShelter.remove();
-											req.flash("success", "Account deleted successfully.");
-											return res.redirect("/shelters");
 										});
 									}
 								});
@@ -155,9 +191,17 @@ router.post("/:id/delete", middleware.isLoggedIn, middleware.checkShelterOwnersh
 						});
 					});
 				}
+				foundShelter.remove();
+				req.flash("success", "Account deleted successfully.");
+				return res.redirect("/shelters");
 			});
 		}
 	});
 });
+
+//function that we're going to call on the index route to do the fuzzy search
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
 
 module.exports = router;

@@ -98,9 +98,6 @@ router.post("/:userId/delete", middleware.allUserOwnership, function(req, res){
 													req.flash("error", "Wasn't able to delete account.");
 													return res.redirect("back");
 												}
-												foundShelter.remove();
-												req.flash("error", "Account deleted successfully.");
-												return res.redirect("/shelters");
 											});
 										}
 									});
@@ -108,6 +105,9 @@ router.post("/:userId/delete", middleware.allUserOwnership, function(req, res){
 							});
 						});
 					}
+					foundShelter.remove();
+					req.flash("error", "Account deleted successfully.");
+					return res.redirect("/shelters");
 				});
 			}
 		});

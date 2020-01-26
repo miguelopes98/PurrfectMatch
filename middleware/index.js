@@ -64,6 +64,11 @@ middleware.checkShelterOwnership = function(req, res, next){
 				req.flash("error", "Shelter not found.");
 				return res.redirect("back");
 			}
+			console.log(foundShelter);
+			console.log(foundShelter.author);
+			console.log(foundShelter.author.id);
+			console.log(req.user._id);
+			console.log(foundShelter.author.id.equals(req.user._id));
 			//check if user is owner of shelter
 			if(foundShelter.author.id.equals(req.user._id)){
 				return next();
