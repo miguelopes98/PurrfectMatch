@@ -5,7 +5,8 @@
 	<div class="thumbnail showThumbnail">
 		<img src="<%= dog.avatar %>">
 		<div class="caption">
-			<h3><%= dog.name %></h3>
+			<h3 class="inline"><%= dog.name %></h3>
+			<p class="inline pull-right">Belonging shelter: <a href="/shelters/<%= dog.shelter._id %>"><%= dog.shelter.name %></a></p>
 			<p><%= dog.breed %></p>
 			<p><%= dog.age %></p>
 			<p><%= dog.gender %></p>
@@ -47,7 +48,7 @@
 				<% for(var i = 0; i < dog.likes.length; i++){ %>
 					<p>
 						<!-- SHOW ICON IF NO PROFILE IMAGE, SHOW PROFILE IMAGE ROUNDED IF IT EXISTS-->
-						<i class="fas fa-user"></i> <%= dog.likes[i].username %>
+						<i class="fas fa-user"></i> <a href="/users/<%= dog.likes[i]._id %>"><%= dog.likes[i].username %></a>
 					</p>
 				<% } %>
 			  </div>
@@ -84,24 +85,45 @@
 		
 		</div>
 
-		<!-- Show the 4 oldest comments -->
-		<% for(var i = 0; i < dog.comments.slice(0,4).length; i++){ %>
-			<div>
+		<!-- Show the 4 most recent comments -->
+		<% if(dog.comments.length < 4){ %>
+			<% for(var i = dog.comments.length - 1; i >= 0; i--){ %>
 				<div>
-					<h4 class="inline">
-						<%= dog.comments[i].author.username %>
-					</h4>
-					
-					<% if(currentUser && dog.comments[i].author.id.equals(currentUser._id)){ %>
-						<form class="inline" action="/shelters/<%= shelter._id %>/dogs/<%= dog._id %>/comments/<%= dog.comments[i]._id %>/delete" method="POST">
-							<button class="pull-right btn btn-danger btn-xs">Delete</button>
-						</form>
+					<div>
+						<h4 class="inline">
+							<a href="/users/<%= dog.comments[i].author.id %>"><%= dog.comments[i].author.username %></a>
+						</h4>
 
-						<a href="/shelters/<%= shelter._id %>/dogs/<%= dog._id %>/comments/<%= dog.comments[i]._id %>/edit" class="pull-right btn btn-warning btn-xs">Edit</a>
-					<% } %>
+						<% if(currentUser && dog.comments[i].author.id.equals(currentUser._id)){ %>
+							<form class="inline" action="/shelters/<%= shelter._id %>/dogs/<%= dog._id %>/comments/<%= dog.comments[i]._id %>/delete" method="POST">
+								<button class="pull-right btn btn-danger btn-xs">Delete</button>
+							</form>
+
+							<a href="/shelters/<%= shelter._id %>/dogs/<%= dog._id %>/comments/<%= dog.comments[i]._id %>/edit" class="pull-right btn btn-warning btn-xs">Edit</a>
+						<% } %>
+					</div>
+					<p><%= dog.comments[i].text %></p>
 				</div>
-				<p><%= dog.comments[i].text %></p>
-			</div>
+			<% } %>
+		<% } else {%>
+			<% for(var i = dog.comments.length - 1; i > dog.comments.length - 5; i--){ %>
+				<div>
+					<div>
+						<h4 class="inline">
+							<a href="/users/<%= dog.comments[i].author.id %>"><%= dog.comments[i].author.username %></a>
+						</h4>
+
+						<% if(currentUser && dog.comments[i].author.id.equals(currentUser._id)){ %>
+							<form class="inline" action="/shelters/<%= shelter._id %>/dogs/<%= dog._id %>/comments/<%= dog.comments[i]._id %>/delete" method="POST">
+								<button class="pull-right btn btn-danger btn-xs">Delete</button>
+							</form>
+
+							<a href="/shelters/<%= shelter._id %>/dogs/<%= dog._id %>/comments/<%= dog.comments[i]._id %>/edit" class="pull-right btn btn-warning btn-xs">Edit</a>
+						<% } %>
+					</div>
+					<p><%= dog.comments[i].text %></p>
+				</div>
+			<% } %>
 		<% } %>
 	</div>
 	

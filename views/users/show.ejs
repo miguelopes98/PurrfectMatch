@@ -31,12 +31,24 @@
 			<% } %>
 		<% } %>
 		
+		<% if(currentUser && currentUser.role === "shelterUser"){ %>
+			<% if(user._id.equals(currentUser._id)){ %>
+				<a class="btn btn-success btn-lg" href="/shelters/<%= shelter._id %>/dogs/new">Add a dog to your shelter</a>
+			<% } %>
+		<% } %>
+		
 		<% if(currentUser && user._id.equals(currentUser._id)){ %>
-			<a class="btn btn-lg btn-warning" href="/users/<%= user._id %>/edit">Edit Account</a>
-			<form class=" inline" action="/users/<%= user._id %>/delete" method="POST">
-				<button id="deleteAccount" class="btn btn-danger btn-lg" data-toggle="tooltip" data-placement="top" title="WARNING: Please note that if you press this button, you will delete this account, this shelter page and all the dogs, comments and reviews associated. Please be sure of what you want before taking this action.">Delete Account</button>
-			</form>
-
+			<% if(currentUser.role === "shelterUser"){ %>
+				<form class="inline" action="/users/<%= user._id %>/delete" method="POST">
+					<button id="deleteAccount" class="btn btn-danger btn-lg pull-right" data-toggle="tooltip" data-placement="top" title="WARNING: Please note that if you press this button, you will delete this account, this shelter page and all the dogs, comments and reviews associated. Please be sure of what you want before taking this action.">Delete Account</button>
+				</form>
+				<a class="btn btn-lg btn-warning pull-right" href="/users/<%= user._id %>/edit">Edit Account</a>
+			<% } else { %>
+				<a class="btn btn-lg btn-warning" href="/users/<%= user._id %>/edit">Edit Account</a>
+				<form class="inline" action="/users/<%= user._id %>/delete" method="POST">
+					<button id="deleteAccount" class="btn btn-danger btn-lg" data-toggle="tooltip" data-placement="top" title="WARNING: Please note that if you press this button, you will delete this account, this shelter page and all the dogs, comments and reviews associated. Please be sure of what you want before taking this action.">Delete Account</button>
+				</form>
+			<% } %>
 		<% } %>
 		
 		

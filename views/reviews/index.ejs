@@ -28,11 +28,11 @@
 		
 			<h3>All of <%= shelter.name %>'s Reviews:</h3>
 		
-			<% for(var i = 0; i < shelter.reviews.length; i++){ %>
+			<% for(var i = shelter.reviews.length - 1; i >= 0; i--){ %>
 				<div class="border">
 					<%- '<span class="fa fa-star checked"></span>'.repeat(shelter.reviews[i].rating) %><%- '<span class="fa fa-star"></span>'.repeat(5 - shelter.reviews[i].rating) %>
 					<h4 class="inline">
-						 - Review by: <%= shelter.reviews[i].author.username %>
+						 - Review by: <a href="/users/<%= shelter.reviews[i].author.id %>"><%= shelter.reviews[i].author.username %></a>
 					</h4>
 
 					<div class="block">

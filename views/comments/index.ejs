@@ -8,10 +8,10 @@
 	</div>
 	
 	<div class="container-fluid">
-		<% for(var i = 0; i < dog.comments.length; i++){ %>
+		<% for(var i = dog.comments.length - 1; i >= 0; i--){ %>
 			<div class="border">
 				<h4 class="inline">
-					<%= dog.comments[i].author.username %>
+					<a href="/users/<%= dog.comments[i].author.id %>"><%= dog.comments[i].author.username %></a>
 				</h4>
 				
 				<% if(currentUser && dog.comments[i].author.id.equals(currentUser._id)){ %>

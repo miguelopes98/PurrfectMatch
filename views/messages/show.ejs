@@ -4,13 +4,13 @@
 	
 	
 	<div class="block text-center" id="margin">
-		<h1 class="inline">Your messages with <%= recipient.username %></h1>
+		<h1 class="inline">Your messages with <a href="/users/<%= recipient._id %>"><%= recipient.username %></a></h1>
 	</div>
 	
 	<div class="container-fluid">
 		<div class="border">
 			<h4 class="inline">
-				<%= recipient.username %>
+				<a href="/users/<%= recipient._id %>"><%= recipient.username %></a>
 			</h4>
 			<form action="/users/<%= user._id %>/messages/<%= recipient._id %>" method="POST">
 				<textarea name="message[text]" placeholder="Send something to <%= recipient.username %>..."></textarea>

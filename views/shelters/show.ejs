@@ -67,30 +67,55 @@
 				<% } %>
 			</div>
 
-			<!-- Show the 4 oldest reviews -->
-			<!-- eventually it will be the 4 most recent reviews -->
-			<% for(var i = 0; i < shelter.reviews.slice(0,4).length; i++){ %>
-				<div class="margin">
-					<div>
-						<h4 class="inline">
-							<%= shelter.reviews[i].author.username %> - <span class="fa fa-star checked"></span>
-					<span class="fa fa-star <% if (shelter.reviews[i].rating > 1.5) { %> checked <% } %>"></span>
-					<span class="fa fa-star <% if (shelter.reviews[i].rating > 2.5) { %> checked <% } %>"></span>
-					<span class="fa fa-star <% if (shelter.reviews[i].rating > 3.5) { %> checked <% } %>"></span>
-					<span class="fa fa-star <% if (shelter.reviews[i].rating > 4.5) { %> checked <% } %>"></span>
-						</h4>
+			<!-- shows the 4 most recent reviews -->
+			<% if(shelter.reviews.length < 4){ %>
+				<% for(var i = shelter.reviews.length - 1; i >= 0; i--){ %>
+					<div class="margin">
+						<div>
+							<h4 class="inline">
+								<a href="/users/<%= shelter.reviews[i].author.id %>"><%= shelter.reviews[i].author.username %></a> - <span class="fa fa-star checked"></span>
+						<span class="fa fa-star <% if (shelter.reviews[i].rating > 1.5) { %> checked <% } %>"></span>
+						<span class="fa fa-star <% if (shelter.reviews[i].rating > 2.5) { %> checked <% } %>"></span>
+						<span class="fa fa-star <% if (shelter.reviews[i].rating > 3.5) { %> checked <% } %>"></span>
+						<span class="fa fa-star <% if (shelter.reviews[i].rating > 4.5) { %> checked <% } %>"></span>
+							</h4>
 
-						<% if(currentUser && shelter.reviews[i].author.id.equals(currentUser._id)){ %>
-							<form class="inline" action="/shelters/<%= shelter._id %>/reviews/<%= shelter.reviews[i]._id %>/delete" method="POST">
-								<button class="pull-right btn btn-danger btn-xs">Delete</button>
-							</form>
+							<% if(currentUser && shelter.reviews[i].author.id.equals(currentUser._id)){ %>
+								<form class="inline" action="/shelters/<%= shelter._id %>/reviews/<%= shelter.reviews[i]._id %>/delete" method="POST">
+									<button class="pull-right btn btn-danger btn-xs">Delete</button>
+								</form>
 
-							<a href="/shelters/<%= shelter._id %>/reviews/<%= shelter.reviews[i]._id %>/edit" class="pull-right btn btn-warning btn-xs">Edit</a>
-						<% } %>
+								<a href="/shelters/<%= shelter._id %>/reviews/<%= shelter.reviews[i]._id %>/edit" class="pull-right btn btn-warning btn-xs">Edit</a>
+							<% } %>
 
+						</div>
+						<p><%= shelter.reviews[i].text %></p>
 					</div>
-					<p><%= shelter.reviews[i].text %></p>
-				</div>
+				<% } %>
+			<% } else { %>
+				<% for(var i = shelter.reviews.length - 1; i > shelter.reviews.length - 5; i--){ %>
+					<div class="margin">
+						<div>
+							<h4 class="inline">
+								<a href="/users/<%= shelter.reviews[i].author.id %>"><%= shelter.reviews[i].author.username %></a> - <span class="fa fa-star checked"></span>
+						<span class="fa fa-star <% if (shelter.reviews[i].rating > 1.5) { %> checked <% } %>"></span>
+						<span class="fa fa-star <% if (shelter.reviews[i].rating > 2.5) { %> checked <% } %>"></span>
+						<span class="fa fa-star <% if (shelter.reviews[i].rating > 3.5) { %> checked <% } %>"></span>
+						<span class="fa fa-star <% if (shelter.reviews[i].rating > 4.5) { %> checked <% } %>"></span>
+							</h4>
+
+							<% if(currentUser && shelter.reviews[i].author.id.equals(currentUser._id)){ %>
+								<form class="inline" action="/shelters/<%= shelter._id %>/reviews/<%= shelter.reviews[i]._id %>/delete" method="POST">
+									<button class="pull-right btn btn-danger btn-xs">Delete</button>
+								</form>
+
+								<a href="/shelters/<%= shelter._id %>/reviews/<%= shelter.reviews[i]._id %>/edit" class="pull-right btn btn-warning btn-xs">Edit</a>
+							<% } %>
+
+						</div>
+						<p><%= shelter.reviews[i].text %></p>
+					</div>
+				<% } %>
 			<% } %>
 		</div>
 </div>

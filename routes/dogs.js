@@ -9,19 +9,6 @@ var express = require("express"),
 	Review = require("../models/reviews.js"),
 	User = require("../models/user.js");
 
-
-/*//GENERAL INDEX ROUTE - shows every existing dog and fuzzy search
-router.get("/dogs", function(req,res){
-	Shelter.find({}).populate("dogs").exec(function(err, allShelters){
-		if(err){
-			console.log(err);
-			req.flash("error", "Shelter/shelters not found.");
-			return res.redirect("back");
-		}
-		res.render("dogs/generalIndex.ejs", {shelters: allShelters});
-	});
-});*/
-
 //GENERALINDEX - show every existing dog and fuzzy search
 router.get("/dogs", function(req, res){
 	var perPage = 8;
@@ -70,7 +57,6 @@ router.get("/dogs", function(req, res){
 					req.flash("error", "Dog/Dogs not found.");
 					return res.redirect("back");
 				} else {
-					console.log(allDogs[0]);
 					return res.render("dogs/generalIndex", {
 					dogs: allDogs,
 					current: pageNumber,
@@ -200,7 +186,7 @@ router.get("/shelters/:id/dogs/:dogId", function(req, res){
 			req.flash("error", "Shelter not found.");
 			return res.redirect("back");
 		}
-		Dog.findById(req.params.dogId).populate("comments likes").exec(function(err, foundDog){
+		Dog.findById(req.params.dogId).populate("comments likes shelter").exec(function(err, foundDog){
 			if(err){
 				console.log(err);
 				req.flash("error", "Dog not found.");

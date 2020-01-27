@@ -10,14 +10,21 @@ var express = require("express"),
 
 //SHOW ROUTE - shows user's profile page
 router.get("/:userId", function(req, res){
-	User.findById(req.params.userId, function(err, foundUser){
+	Shelter.find({"author.id": req.params.userId}, function(err, foundShelter){
 		if(err){
 			console.log(err);
-			req.flash("error", "User not found.");
+			req.flash("error", "Sorry! Something went wrong.");
 			return res.redirect("back");
 		}
-		res.render("users/show.ejs", {user: foundUser});
-	})
+		User.findById(req.params.userId, function(err, foundUser){
+			if(err){
+				console.log(err);
+				req.flash("error", "User not found.");
+				return res.redirect("back");
+			}
+			return res.render("users/show.ejs", {shelter: foundShelter, user: foundUser});
+		});
+	});
 });
 
 //EDIT ROUTE - shows form to edit user's information
