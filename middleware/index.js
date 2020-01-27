@@ -165,7 +165,6 @@ middleware.checkReviewExistence = function(req, res, next){
 			//if the user already reviewed
 			if(alreadyReviewed){
 				console.log("you already reviewed this shelter. you can only review each shelter once. do you want to change your review?");
-				req.flash("error", "You already reviewed this shelter. You can only review each shelter once. Do you want to change your review?");
 				return res.render("reviews/editOrNot.ejs", {shelter: foundShelter, review: foundReview});
 			}
 			//if the user didn't reviewed this shelter yet
