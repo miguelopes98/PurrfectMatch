@@ -7,6 +7,11 @@ label{
 	display: block;
 }
 
+.rounded{
+	border-radius: 50%;
+	height: 1em;
+}
+
 /* selects the like button icon */
 .likeActive{
 	color: red;
