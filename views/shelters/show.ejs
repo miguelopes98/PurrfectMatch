@@ -73,7 +73,7 @@
 					<div class="margin">
 						<div>
 							<h4 class="inline">
-								<a href="/users/<%= shelter.reviews[i].author.id %>"><%= shelter.reviews[i].author.username %></a> - <span class="fa fa-star checked"></span>
+								<img class="rounded" src="<%= reviews[i].author.id.avatar %>"><a href="/users/<%= shelter.reviews[i].author.id %>"> <%= shelter.reviews[i].author.username %></a> - <span class="fa fa-star checked"></span>
 						<span class="fa fa-star <% if (shelter.reviews[i].rating > 1.5) { %> checked <% } %>"></span>
 						<span class="fa fa-star <% if (shelter.reviews[i].rating > 2.5) { %> checked <% } %>"></span>
 						<span class="fa fa-star <% if (shelter.reviews[i].rating > 3.5) { %> checked <% } %>"></span>
@@ -97,7 +97,7 @@
 					<div class="margin">
 						<div>
 							<h4 class="inline">
-								<a href="/users/<%= shelter.reviews[i].author.id %>"><%= shelter.reviews[i].author.username %></a> - <span class="fa fa-star checked"></span>
+								<img class="rounded" src="<%= reviews[i].author.id.avatar %>"><a href="/users/<%= shelter.reviews[i].author.id %>"> <%= shelter.reviews[i].author.username %></a> - <span class="fa fa-star checked"></span>
 						<span class="fa fa-star <% if (shelter.reviews[i].rating > 1.5) { %> checked <% } %>"></span>
 						<span class="fa fa-star <% if (shelter.reviews[i].rating > 2.5) { %> checked <% } %>"></span>
 						<span class="fa fa-star <% if (shelter.reviews[i].rating > 3.5) { %> checked <% } %>"></span>

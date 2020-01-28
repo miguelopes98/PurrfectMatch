@@ -100,7 +100,14 @@ router.get("/:id", function(req, res){
 			req.flash("error", "Shelter not found.");
 			return res.redirect("/shelters");
 		}
-		res.render("shelters/show.ejs", {shelter: foundShelter});
+		Review.find({"_id":{$in: foundShelter.reviews}}).populate("author.id").exec(function(err, allReviews){
+			if(err){
+				console.log(err);
+				req.flash("error", "Reviews not found.");
+				return res.redirect("back");
+			}
+			return res.render("shelters/show.ejs", {shelter: foundShelter, reviews: allReviews});
+		});
 	});
 });
 
