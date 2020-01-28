@@ -9,7 +9,7 @@
 	
 	<div class="container-fluid">
 		<% if(user.conversations.length !== 0){ %>
-			<% for(var i = 0; i < user.conversations.length; i++){ %>
+			<% for(var i = user.conversations.length - 1; i >= 0; i--){ %>
 				<a href="/users/<%= user._id %>/messages/<%= user.conversations[i].person._id %>">
 					<div class="border">
 						<h4 class="inline">

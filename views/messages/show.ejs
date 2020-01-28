@@ -4,35 +4,39 @@
 	
 	
 	<div class="block text-center" id="margin">
-		<h1 class="inline">Your messages with <a href="/users/<%= recipient._id %>"><%= recipient.username %></a></h1>
+		<h1>Your messages with <a href="/users/<%= recipient._id %>"><%= recipient.username %></a></h1>
 	</div>
 	
-	<div class="container-fluid">
-		<div class="border">
-			<h4 class="inline">
+	<div class="marginAuto">
+		<div class="borderMessage showThumbnailMessage">
+			<h4>
 				<img class="rounded" src="<%= recipient.avatar %>"><a href="/users/<%= recipient._id %>"> <%= recipient.username %></a>
 			</h4>
-			<form action="/users/<%= user._id %>/messages/<%= recipient._id %>" method="POST">
-				<textarea name="message[text]" placeholder="Send something to <%= recipient.username %>..."></textarea>
-				<button class="btn btn-md btn-primary">
-					<i class="fas fa-reply"></i>
-				</button>
-			</form>
+			<div>
+				<form class="marginBot" action="/users/<%= user._id %>/messages/<%= recipient._id %>" method="POST">
+					<textarea class="messageInput" name="message[text]" placeholder="Send something to <%= recipient.username %>..."></textarea>
+					<button class="btn btn-lg btn-primary sendButton">
+						<i class="fas fa-reply"></i>
+					</button>
+				</form>
+			</div>
 			<% if(index !== undefined){ %>
 			<div>
 				<% for(var i = user.conversations[index].messages.length - 1; i >= 0 ; i--){ %>
-					<p class="
-						<% if(user.conversations[index].messages[i].sender.id.equals(currentUser._id)){ %>
-							  blue
-						<% } %>
-						">
-						<%= user.conversations[index].messages[i].text %>
-					</p>
+					<div class="
+							<% if(user.conversations[index].messages[i].sender.id.equals(currentUser._id)){ %>
+								message-orange
+							<% } else { %>
+								message-blue
+							<% } %>">
+						<p class="message-content">
+							<%= user.conversations[index].messages[i].text %>
+						</p>
+					</div>
 				<% } %>
 			</div>
 			<% } %>
 		</div>
-		<hr>
 	</div>
 </div>
 

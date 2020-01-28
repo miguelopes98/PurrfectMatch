@@ -77,12 +77,119 @@ label{
 
 /* puts the messages that the logged in user sends with blue background  */
 .blue{
-	background-color: blue;
+	background-color: #0099ff;
 }
 
 /* selects the h1 in the registerQuestion.ejs */
 .marginBot{
 	margin-bottom: 25px;
+}
+
+.messageInput{
+	border-radius: 5px;
+	width: 89%;
+}
+
+.sendButton{
+	vertical-align: top;
+}
+
+.white{
+	color: white;
+}
+
+.borderMessage{ /*select the comments div's in the comments index page*/
+	border: 1px solid #b5b4b0;
+	border-radius: 5px;
+	border-color: #b5b4b0;
+	padding: 5px;
+	margin-bottom: 25px;
+}
+
+/* selects div with class showthumbnail on show pages*/
+.showThumbnailMessage{
+	width: 40%;
+	margin: auto;
+}
+
+/* 	ALL THESE CLASSES UNTIL THE ID'S START ARE MESSAGES STYLES IN THE MESSAGE SHOW PAGE */
+.message-blue {
+    position: relative;
+    margin-left: 20px;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #A8DDFD;
+    width: 200px;
+    text-align: left;
+    font: 400 .9em 'Open Sans', sans-serif;
+    border: 1px solid #97C6E3;
+    border-radius: 10px;
+}
+
+.message-orange {
+    position: relative;
+    margin-bottom: 10px;
+    margin-left: calc(100% - 240px);
+    padding: 10px;
+    background-color: #f8e896;
+    width: 200px;
+    text-align: left;
+    font: 400 .9em 'Open Sans', sans-serif;
+    border: 1px solid #dfd087;
+    border-radius: 10px;
+}
+
+.message-content {
+    padding: 0;
+    margin: 0;
+}
+
+.message-blue:after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-top: 15px solid #A8DDFD;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    top: 0;
+    left: -15px;
+}
+
+.message-blue:before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-top: 17px solid #97C6E3;
+    border-left: 16px solid transparent;
+    border-right: 16px solid transparent;
+    top: -1px;
+    left: -17px;
+}
+
+.message-orange:after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-bottom: 15px solid #f8e896;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    bottom: 0;
+    right: -15px;
+}
+
+.message-orange:before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-bottom: 17px solid #dfd087;
+    border-left: 16px solid transparent;
+    border-right: 16px solid transparent;
+    bottom: -1px;
+    right: -17px;
 }
 
 /* selects the users avatars in the like pop up page */
