@@ -32,7 +32,7 @@
 				<div class="border">
 					<%- '<span class="fa fa-star checked"></span>'.repeat(shelter.reviews[i].rating) %><%- '<span class="fa fa-star"></span>'.repeat(5 - shelter.reviews[i].rating) %>
 					<h4 class="inline">
-						 - Review by: <a href="/users/<%= shelter.reviews[i].author.id %>"><%= shelter.reviews[i].author.username %></a>
+						 - Review by: <a href="/users/<%= shelter.reviews[i].author.id %>"><%= shelter.reviews[i].author.username %> </a><img class="rounded" src="<%= reviews[i].author.id.avatar %>">
 					</h4>
 
 					<div class="block">
