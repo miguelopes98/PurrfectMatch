@@ -17,7 +17,15 @@ router.get("/", function(req, res){
 			req.flash("error", "Comments not found.");
 			return res.redirect("back");
 		}
-		res.render("comments/index.ejs", {shelterId: req.params.id, dog: foundDog});
+		Comment.find({"_id":{$in: foundDog.comments}}).populate("author.id").exec(function(err, allComments){
+			if(err){
+				console.log(err);
+				req.flash("error","Comments not found.");
+				return res.redirect("back");
+			}
+			console.log(allComments[0]);
+			return res.render("comments/index.ejs", {shelterId: req.params.id, dog: foundDog, comments: allComments});
+		})
 	});
 });
 
