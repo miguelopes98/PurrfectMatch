@@ -58,7 +58,17 @@ router.post("/:userId", middleware.allUserOwnership, function(req, res){
 				return res.redirect("/users/" + req.params.userId);
 			});
 		});
-	}	
+	} else {
+		User.findByIdAndUpdate(req.params.userId, req.body.user, function(err, updatedUser){
+			if(err){
+				console.log(err);
+				req.flash("error", "Wasn't able to find and update user's profile.");
+				return res.redirect("back");
+			}
+			req.flash("success", "User profile and user's shelter updated successfully.");
+			return res.redirect("/users/" + req.params.userId);
+		});
+	}
 });
 
 //DESTROY ROUTE - delete account
