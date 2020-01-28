@@ -10,7 +10,7 @@
 	<div class="container-fluid">
 		<div class="border">
 			<h4 class="inline">
-				<a href="/users/<%= recipient._id %>"><%= recipient.username %></a>
+				<img class="rounded" src="<%= recipient.avatar %>"><a href="/users/<%= recipient._id %>"> <%= recipient.username %></a>
 			</h4>
 			<form action="/users/<%= user._id %>/messages/<%= recipient._id %>" method="POST">
 				<textarea name="message[text]" placeholder="Send something to <%= recipient.username %>..."></textarea>
