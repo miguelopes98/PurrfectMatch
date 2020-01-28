@@ -5,14 +5,14 @@
 	<div class="thumbnail showThumbnail">
 		<img src="<%= dog.avatar %>">
 		<div class="caption">
-			<h3 class="inline"><%= dog.name %></h3>
-			<p class="inline pull-right">Belonging shelter: <a href="/shelters/<%= dog.shelter._id %>"><%= dog.shelter.name %></a></p>
-			<p><%= dog.breed %></p>
-			<p><%= dog.age %></p>
-			<p><%= dog.gender %></p>
-			<p><%= dog.temperament %></p>
-			<p><%= dog.medicalConditions %></p>
-			<p><%= dog.personality %></p>
+			<h3 class="inline">Name: <%= dog.name %></h3>
+			<p class="inline pull-right"><strong>Belonging shelter:</strong> <a href="/shelters/<%= dog.shelter._id %>"><%= dog.shelter.name %></a></p>
+			<p><strong>Breed:</strong> <%= dog.breed %></p>
+			<p><strong>Age:</strong> <%= dog.age %></p>
+			<p><strong>Gender:</strong> <%= dog.gender %></p>
+			<p><strong>Temperament:</strong> <%= dog.temperament %></p>
+			<p><strong>Medical Conditions:</strong> <%= dog.medicalConditions %></p>
+			<p><strong>Personality:</strong> <%= dog.personality %></p>
 		</div>
 		
 		<% if(currentUser && dog.author.id.equals(currentUser._id)){ %>
@@ -47,8 +47,7 @@
 			  <div class="modal-body">
 				<% for(var i = 0; i < dog.likes.length; i++){ %>
 					<p>
-						<!-- SHOW ICON IF NO PROFILE IMAGE, SHOW PROFILE IMAGE ROUNDED IF IT EXISTS-->
-						<i class="fas fa-user"></i> <a href="/users/<%= dog.likes[i]._id %>"><%= dog.likes[i].username %></a>
+						<img id="rounded" src="<%= dog.likes[i].avatar %>"> <a href="/users/<%= dog.likes[i]._id %>"> <%= dog.likes[i].username %></a>
 					</p>
 				<% } %>
 			  </div>
