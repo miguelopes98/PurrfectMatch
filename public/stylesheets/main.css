@@ -57,6 +57,10 @@ label{
 	margin-left: 5px;
 }
 
+.marginAuto{
+	margin: auto;
+}
+
 .checked{ /* selects the stars in the new review form*/
 	color: yellow;
 }
@@ -68,6 +72,11 @@ label{
 /* puts the messages that the logged in user sends with blue background  */
 .blue{
 	background-color: blue;
+}
+
+/* selects the h1 in the registerQuestion.ejs */
+.marginBot{
+	margin-bottom: 25px;
 }
 
 /*selects the index page's grid. makes the ajust the display of shelters/dogs considering the height of its images*/

@@ -12,6 +12,9 @@ body{
 #landing-header h1 {
   color: #fff;
 }
+#white{
+	color: white;
+}
 
 .slideshow { 
   position: fixed;

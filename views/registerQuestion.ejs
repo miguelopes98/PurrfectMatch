@@ -1,17 +1,42 @@
 <%- include ("./partials/header") %>
 
-<h1>
-	Register
+<h1 id="center" class="marginBot">
+	What purpose are you registering with?
 </h1>
 
-<p>
-	Are you:
-</p>
-<p>
-	--> <a href="/register/user">looking for a dog</a>
-</p>
-<p>
-	--> <a href="/register/shelter">registering your shelter</a>
-</p>
+<div class="row text-center">
+	<div class="col-md-1 col-sm-0">
+	</div>
+	<div class="thumbnail col-md-4 col-sm-6">
+		<h4>
+			<a href="/register/user">I'm looking for a dog</a>
+		</h4>
+		<div class="caption">
+			<p>
+				This type of account is meant for people trying to find a partner.
+			</p>
+			<p>
+				This account is able to interact with other people that are trying to find a dog as well, you will be able to text other people, comment and like dogs and review shelters. You will be able to search through shelters and dogs in order to find your choice for adoption, once you do, you can proceed to contact the shelter where the dog is and arrange an appointment to go visit the dog you chose.
+			</p>
+		</div>
+	</div>
+	<div class="col-md-2 col-sm-0">
+	</div>
+	<div class="thumbnail col-md-4 col-sm-6">
+		<h4>
+			<a href="/register/shelter">I'm registering my shelter</a>
+		</h4>
+		<div class="caption">
+			<p>
+				This type of account is meant for someone that owns a shelter.
+			</p>
+			<p>
+				This type of account will have its own shelter page, where it has all the information necessary like address, schedule, contacts, etc... It can add available dogs for adoption to its page so people can view the information about a specific dog. This type of account cannot text other users, like or comment dogs, and can't review any shelters.
+			</p>
+		</div>
+	</div>
+	<div class="col-md-1 col-sm-0">
+	</div>
+</div>
 
 <%- include ("./partials/footer") %>
