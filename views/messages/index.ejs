@@ -13,7 +13,7 @@
 				<a href="/users/<%= user._id %>/messages/<%= user.conversations[i].person._id %>">
 					<div class="border">
 						<h4 class="inline">
-							<%= user.conversations[i].person.username %>
+							<img class="rounded" src="<%= user.conversations[i].person.avatar %>"> <%= user.conversations[i].person.username %>
 						</h4>
 						<% var j = user.conversations[i].messages.length - 1; %>
 						<p><%= user.conversations[i].messages[j].text %></p>
