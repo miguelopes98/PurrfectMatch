@@ -91,7 +91,7 @@
 				<div>
 					<div>
 						<h4 class="inline">
-							<a href="/users/<%= dog.comments[i].author.id %>"><%= dog.comments[i].author.username %></a>
+							<img class="rounded" src="<%= comments[i].author.id.avatar %>"><a href="/users/<%= dog.comments[i].author.id %>"> <%= dog.comments[i].author.username %></a>
 						</h4>
 
 						<% if(currentUser && dog.comments[i].author.id.equals(currentUser._id)){ %>
@@ -110,7 +110,7 @@
 				<div>
 					<div>
 						<h4 class="inline">
-							<a href="/users/<%= dog.comments[i].author.id %>"><%= dog.comments[i].author.username %></a>
+							<img class="rounded" src="<%= comments[i].author.id.avatar %>"><a href="/users/<%= dog.comments[i].author.id %>"> <%= dog.comments[i].author.username %></a>
 						</h4>
 
 						<% if(currentUser && dog.comments[i].author.id.equals(currentUser._id)){ %>

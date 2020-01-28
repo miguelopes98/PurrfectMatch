@@ -24,7 +24,7 @@ router.get("/", function(req, res){
 				return res.redirect("back");
 			}
 			return res.render("comments/index.ejs", {shelterId: req.params.id, dog: foundDog, comments: allComments});
-		})
+		});
 	});
 });
 

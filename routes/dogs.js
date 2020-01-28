@@ -201,7 +201,15 @@ router.get("/shelters/:id/dogs/:dogId", function(req, res){
 					x = like.equals(req.user._id);
 				});
 			}
-			res.render("dogs/show.ejs", {shelter: foundShelter, dog: foundDog, x: x});
+			Comment.find({"_id":{$in: foundDog.comments}}).populate("author.id").exec(function(err, allComments){
+				if(err){
+					console.log(err);
+					req.flash("error","Comments not found.");
+					return res.redirect("back");
+				}
+				return res.render("dogs/show.ejs", {shelter: foundShelter, dog: foundDog, x: x, comments: allComments});
+			});
+			
 		});
 	});
 });
