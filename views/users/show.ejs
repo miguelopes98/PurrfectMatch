@@ -2,11 +2,11 @@
 
 <div class="container-fluid">
 
-	<div class="thumbnail">
+	<div class="thumbnail showThumbnail">
 		<% if(user.avatar !== ""){ %>
 			<img src="<%= user.avatar %>">
 		<% } else{ %>
-			<img src="https://cdn.icon-icons.com/icons2/494/PNG/512/user_icon-icons.com_48201.png">
+			<img src="https://cdn.pixabay.com/photo/2018/04/18/18/56/user-3331256__340.png">
 		<% } %>
 			
 		<div class="caption">
@@ -18,11 +18,15 @@
 			<% } %>
 			<% if(user.role === "user"){ %>
 				<p><strong>Name: </strong><%= user.firstName %> <%= user.lastName %></p>
+				<p><strong>What you need to know about <%= user.username %>: </strong><%= user.description %></p>
 			<% } else { %>
-				<p><strong>Name: </strong><%= user.name %></p>
+				<p><strong>Here's something you should know about our shelter: </strong><%= user.description %></p>
+				<p><strong>Email: </strong><%= user.email %></p>
+				<p><strong>Phone Number: </strong><%= user.phoneNumber %></p>
+				<p><strong>Address: </strong><%= user.address %></p>
+				<p><strong>Schedule: </strong><%= user.schedule %></p>
+				<p><strong>Website: </strong><%= user.websiteUrl %></p>
 			<% } %>
-			<p><strong>What you need to know about <%= user.username %>: </strong><%= user.description %></p>
-			<p><strong>Contacts: </strong><%= user.email %></p>
 		</div>
 		
 		<% if(currentUser && currentUser.role === "user"){ %>
