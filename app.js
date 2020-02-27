@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 var express = require("express"),
 	app = express(),
 	mongoose = require('mongoose'),
@@ -13,7 +15,7 @@ var express = require("express"),
 	Message = require("./models/message.js"),
 	User = require("./models/user.js");
 
-mongoose.connect("mongodb://localhost:27017/purrfect_match", {useNewUrlParser: true, useUnifiedTopology:true});
+mongoose.connect(process.env.DATABASEURL, {useNewUrlParser: true, useUnifiedTopology:true});
 //body-parser set up
 app.use(bodyParser.urlencoded({extended:true}));
 //
